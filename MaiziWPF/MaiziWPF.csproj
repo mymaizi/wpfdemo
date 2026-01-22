@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows7.0</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<ApplicationIcon>Assets\maizi.ico</ApplicationIcon>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="H.NotifyIcon.Wpf" Version="2.4.1" />
+		<PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
+		<PackageReference Include="Prism.DryIoc" Version="9.0.537" />
+		<PackageReference Include="Volo.Abp" Version="10.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\MaiziWPF.Modules.System\MaiziWPF.Modules.System.csproj" />
+		<ProjectReference Include="..\MaiziWPF.Services.Application\MaiziWPF.Services.Application.csproj" />
+		<ProjectReference Include="..\MaiziWPF.Services.MySql\MaiziWPF.Services.MySql.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Assets\maizi.ico" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>
