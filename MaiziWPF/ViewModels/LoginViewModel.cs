@@ -1,5 +1,5 @@
-﻿using MaiziWPF.Services.Application.Contracts.Users;
-using MaiziWPF.Services.Application.Users;
+﻿using MaiziWPF.Services.Application.Contracts;
+using MaiziWPF.Services.Application;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Prism.Commands;
@@ -13,10 +13,10 @@ namespace MaiziWPF.ViewModels
     public class LoginViewModel : BindableBase
     {
         private readonly IRegionManager _regionManager;
-        private readonly IUserService _userService;
+        private readonly ISysUserService _userService;
         public ICommand CloseWindowCommand { get; }
         public ICommand LoginCommand { get; }
-        public LoginViewModel(IRegionManager regionManager, IUserService userService)
+        public LoginViewModel(IRegionManager regionManager, ISysUserService userService)
         {
             _regionManager = regionManager;
             _userService = userService;

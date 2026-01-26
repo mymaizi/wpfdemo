@@ -5,6 +5,7 @@
   <Folder Name="/Services/">
     <Project Path="MaiziWPF.Services.Application.Contracts/MaiziWPF.Services.Application.Contracts.csproj" Id="a4846ac6-d8e6-410d-996d-5eb99784d754" />
     <Project Path="MaiziWPF.Services.Application/MaiziWPF.Services.Application.csproj" Id="b0ab4ef1-f1e5-41f6-8aba-71d6772ce22d" />
+    <Project Path="MaiziWPF.Services.Domain.Shared/MaiziWPF.Services.Domain.Shared.csproj" Id="f15bd62f-1074-4b74-b79e-937f73d4dd40" />
     <Project Path="MaiziWPF.Services.Domain/MaiziWPF.Services.Domain.csproj" Id="b8c29fd0-9c53-4278-a57b-466a7ec71b4e" />
     <Project Path="MaiziWPF.Services.MySql/MaiziWPF.Services.MySql.csproj" Id="88ed7eba-8720-4ca3-b85f-27d23cc41d9c" />
   </Folder>
