@@ -12,5 +12,10 @@ namespace MaiziWPF.Services.Application
         {
             _repository = repository;
         }
+
+        public SysUser SelectUserByUserName(string userName)
+        {
+           return _repository.SelectUserByUserName(userName);
+        }
     }
 }

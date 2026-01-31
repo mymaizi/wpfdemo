@@ -4,12 +4,15 @@
 		<TargetFramework>net10.0-windows7.0</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>Assets\maizi.ico</ApplicationIcon>
+		<AppDesignerFolder>Propertys</AppDesignerFolder>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="H.NotifyIcon.Wpf" Version="2.4.1" />
 		<PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
 		<PackageReference Include="Prism.DryIoc" Version="9.0.537" />
-		<PackageReference Include="Volo.Abp" Version="10.0.2" />
+		<PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+		<PackageReference Include="Volo.Abp.Core" Version="10.0.2" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\MaiziWPF.Modules.System\MaiziWPF.Modules.System.csproj" />

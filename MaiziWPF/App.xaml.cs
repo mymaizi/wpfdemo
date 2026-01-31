@@ -1,13 +1,17 @@
 ﻿using MaiziWPF.Modules.System;
+using MaiziWPF.Services.Domain.Shared;
 using MaiziWPF.Views;
-using Microsoft.Extensions.Configuration;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Container.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Navigation.Regions;
-using System;
+using Serilog;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using Volo.Abp;
 
 namespace MaiziWPF
@@ -32,7 +36,37 @@ namespace MaiziWPF
             base.InitializeShell(shell);
             var regionManager = Container.Resolve<IRegionManager>();
             regionManager.RequestNavigate("ContentRegion", "LoginView");
+           
+            Application.Current.DispatcherUnhandledException +=   (sender, e) =>
+            {
+                if (e.Exception is UserFriendlyException d)
+                {
+                    AutoCloseDialog(2000); // 2秒后自动关闭对话框
+                    var dialogContent = new TextBlock
+                    {
+                        Text = e.Exception.Message,
+                        Margin = new Thickness(20),
+                        TextWrapping = TextWrapping.WrapWithOverflow,
+                        FontSize = 16
+                    };
+                     DialogHost.Show(dialogContent, "RootDialog");
+                }
+                e.Handled = true;
+            };
         }
+
+        private async void AutoCloseDialog(int delayMilliseconds)
+        {
+            await Task.Delay(delayMilliseconds);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (DialogHost.IsDialogOpen("RootDialog"))
+                {
+                    DialogHost.Close("RootDialog");
+                }
+            });
+        }
+
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<SystemModule>();
@@ -40,7 +74,7 @@ namespace MaiziWPF
         protected override IContainerExtension CreateContainerExtension()
         {
             var containerExtension = base.CreateContainerExtension() as DryIocContainerExtension;
-            var app= AbpApplicationFactory.Create<MaiziWPFModule>(options =>
+            var app = AbpApplicationFactory.Create<MaiziWPFModule>(options =>
             {
                 //Configure your application options here
                 //var builder = new ConfigurationBuilder();
@@ -49,6 +83,17 @@ namespace MaiziWPF
                 //or
                 //IConfigurationRoot configuration = builder.Build();
                 //options.Services.Configure<T>(configuration.GetSection(""));
+
+                Log.Logger = new LoggerConfiguration()
+#if DEBUG
+                    .MinimumLevel.Debug()
+#else
+                    .MinimumLevel.Information()
+#endif
+                .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day) // 按天滚动保存日志文件
+                .CreateLogger();
+
+                options.Services.AddLogging(log => log.AddSerilog());
             });
             app.Initialize();
             containerExtension.Populate(app.Services);

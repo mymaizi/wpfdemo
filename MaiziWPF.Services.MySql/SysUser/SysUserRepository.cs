@@ -1,5 +1,8 @@
 ﻿using FreeSql;
 using MaiziWPF.Services.Domain;
+using System.Data;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace MaiziWPF.Services.MySql
 {
@@ -17,12 +20,16 @@ namespace MaiziWPF.Services.MySql
         {
             try
             {
-               
+                return _fsql.Select<SysUser>()
+                    .IncludeMany(a => a.Roles)
+                    .IncludeMany(a=>a.Depts)
+                    .IncludeMany(a=>a.Posts)
+                    .Where(a=>a.UserName == userName)
+                    .First();
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
     }
