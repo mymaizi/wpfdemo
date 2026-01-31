@@ -1,5 +1,4 @@
 ﻿using MaiziWPF.Modules.System;
-using MaiziWPF.Services.Domain.Shared;
 using MaiziWPF.Views;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +7,6 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Navigation.Regions;
 using Serilog;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,8 +34,8 @@ namespace MaiziWPF
             base.InitializeShell(shell);
             var regionManager = Container.Resolve<IRegionManager>();
             regionManager.RequestNavigate("ContentRegion", "LoginView");
-           
-            Application.Current.DispatcherUnhandledException +=   (sender, e) =>
+
+            Application.Current.DispatcherUnhandledException += (sender, e) =>
             {
                 if (e.Exception is UserFriendlyException d)
                 {
@@ -49,7 +47,7 @@ namespace MaiziWPF
                         TextWrapping = TextWrapping.WrapWithOverflow,
                         FontSize = 16
                     };
-                     DialogHost.Show(dialogContent, "RootDialog");
+                    DialogHost.Show(dialogContent, "RootDialog");
                 }
                 e.Handled = true;
             };
