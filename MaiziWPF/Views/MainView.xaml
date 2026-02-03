@@ -19,6 +19,7 @@
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <!--  左侧导航区域  -->
         <Border CornerRadius="10 0 0 10">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
@@ -27,6 +28,7 @@
                 </LinearGradientBrush>
             </Border.Background>
             <StackPanel>
+                <!--  LOGO区域  -->
                 <StackPanel
                     Margin="0,5,0,4"
                     HorizontalAlignment="Center"
@@ -64,9 +66,19 @@
                         </Image.RenderTransform>
                     </Image>
                 </StackPanel>
+                <!--  分割线  -->
                 <Separator Height="0.8" Background="#757575" />
+                <!--  导航区域  -->
+                <ItemsControl Margin="10" ItemsSource="{Binding MenuItems}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:ExpanderMenuControl />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </Border>
+        <!--  主内容区域  -->
         <Border Grid.Column="1" CornerRadius="0 10 10 0">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
@@ -79,6 +91,7 @@
                     <RowDefinition Height="42" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+                <!--  TOP按钮区域  -->
                 <Border
                     Grid.Row="0"
                     BorderBrush="#757575"
@@ -170,7 +183,7 @@
                         </Button>
                     </StackPanel>
                 </Border>
-
+                <!--  TAB区域  -->
                 <TabControl
                     Grid.Row="1"
                     HorizontalContentAlignment="Left"
@@ -214,7 +227,6 @@
                         </DataTemplate>
                     </TabControl.ContentTemplate>
                 </TabControl>
-
             </Grid>
         </Border>
     </Grid>

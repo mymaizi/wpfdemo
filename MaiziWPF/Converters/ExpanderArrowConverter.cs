@@ -1,16 +1,19 @@
-﻿using System;
+﻿using MaiziWPF.Services.Domain;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Windows;
+using System.Linq;
+using System.Text;
 using System.Windows.Data;
 
 namespace MaiziWPF
 {
-    public class TabItemVisibilityConverter : IValueConverter
+    public class ExpanderArrowConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value is TabItem modelValue && modelValue.TabIndex != 0) ?
-                Visibility.Visible : Visibility.Collapsed;
+            return value is List<SysMenu> itemList && itemList.Any() ? null : "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

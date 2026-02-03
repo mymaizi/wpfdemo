@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
 
-namespace MaiziWPF.OtherModels
+namespace MaiziWPF
 {
-    public class TabItemModel
+    public class TabItem
     {
         public string Header { get; set; }
         public Frame Content { get; set; }

@@ -9,7 +9,7 @@ namespace MaiziWPF.Services.Domain
     /// 岗位信息表 sys_post
     /// 注意：与原表有差异
     /// </summary>
-    [Table(Name = "SysRole")]
+    [Table(Name = "sys_post")]
     public class SysPost: BaseEntity
     {
         /** 岗位序号 */

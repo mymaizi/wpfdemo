@@ -19,7 +19,7 @@ namespace MaiziWPF.ViewModels
         public ICommand LoginCommand { get; }
         private String _userName;
         private String _password;
-        public string UserName { get => _userName; set => SetProperty(ref _userName, value); }
+        public string UserName { get => _userName; set => SetProperty(ref _userName, value); } 
         public string Password { get => _password; set => SetProperty(ref _password, value); }
 
         public LoginViewModel(IRegionManager regionManager, ISysUserService userService)
@@ -31,6 +31,7 @@ namespace MaiziWPF.ViewModels
                 System.Windows.Application.Current.Shutdown();
             });
             LoginCommand = new DelegateCommand(LoginHandle);
+            UserName = "admin";
         }
 
         private void LoginHandle()
