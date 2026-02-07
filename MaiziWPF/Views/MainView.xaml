@@ -2,11 +2,15 @@
     x:Class="MaiziWPF.Views.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:domain="clr-namespace:MaiziWPF.Services.Domain;assembly=MaiziWPF.Services.Domain"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:MaiziWPF"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
     d:DesignHeight="500"
     d:DesignWidth="1200"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -69,7 +73,7 @@
                 <!--  分割线  -->
                 <Separator Height="0.8" Background="#757575" />
                 <!--  导航区域  -->
-                <ItemsControl Margin="10" ItemsSource="{Binding MenuItems}">
+                <ItemsControl x:Name="dd" ItemsSource="{Binding MenuItems}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <local:ExpanderMenuControl />
@@ -191,34 +195,31 @@
                     SelectedItem="{Binding SelectedTab}">
                     <TabControl.ItemTemplate>
                         <DataTemplate>
-                            <Border>
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Header}" />
-                                    <Button
-                                        Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"
-                                        CommandParameter="{Binding}"
-                                        Visibility="{Binding Converter={StaticResource TabItemVisibilityConverter}}">
-                                        >
-                                        <Button.Template>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Margin="8,0,0,0" Background="Transparent">
-                                                    <materialDesign:PackIcon
-                                                        x:Name="ClosePackIcon"
-                                                        Width="16"
-                                                        Height="16"
-                                                        Kind="Close"
-                                                        Opacity="0.3" />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="ClosePackIcon" Property="Background" Value="#9c2f4f" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Button.Template>
-                                    </Button>
-                                </StackPanel>
-                            </Border>
+                            <StackPanel
+                                Height="15"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal">
+                                <TextBlock Text="{Binding Header}" />
+                                <Button
+                                    Margin="8,0,0,0"
+                                    Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"
+                                    CommandParameter="{Binding}"
+                                    Visibility="{Binding Converter={StaticResource TabItemVisibilityConverter}}">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <materialDesign:PackIcon
+                                                x:Name="ClosePackIcon"
+                                                Kind="Close"
+                                                Opacity="0.3" />
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="ClosePackIcon" Property="Background" Value="#9c2f4f" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </StackPanel>
                         </DataTemplate>
                     </TabControl.ItemTemplate>
                     <TabControl.ContentTemplate>

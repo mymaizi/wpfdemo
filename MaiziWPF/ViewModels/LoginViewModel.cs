@@ -1,6 +1,8 @@
-﻿using MaiziWPF.Services.Application.Contracts;
+﻿using MaiziWPF.Core;
+using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using MaiziWPF.Services.Domain.Shared;
+using MaiziWPF.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation.Regions;
@@ -55,7 +57,7 @@ namespace MaiziWPF.ViewModels
             }
             if (BCrypt.Net.BCrypt.Verify(_password, user.Password))
             {
-                _regionManager.RequestNavigate("ContentRegion", "MainView");
+                _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(MainView));
             }
             else
             {

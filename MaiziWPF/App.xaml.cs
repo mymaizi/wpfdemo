@@ -1,4 +1,5 @@
-﻿using MaiziWPF.Modules.System;
+﻿using MaiziWPF.Core;
+using MaiziWPF.Modules.Sys;
 using MaiziWPF.Views;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,8 +34,7 @@ namespace MaiziWPF
         {
             base.InitializeShell(shell);
             var regionManager = Container.Resolve<IRegionManager>();
-            regionManager.RequestNavigate("ContentRegion", "LoginView");
-
+            regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(LoginView));
             Application.Current.DispatcherUnhandledException += (sender, e) =>
             {
                 if (e.Exception is UserFriendlyException d)
@@ -67,7 +67,7 @@ namespace MaiziWPF
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<SystemModule>();
+            moduleCatalog.AddModule<SysModule>();
         }
         protected override IContainerExtension CreateContainerExtension()
         {

@@ -1,15 +1,21 @@
 ﻿using FreeSql.DataAnnotations;
+using MaiziWPF.Core;
 using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
+using MaiziWPF.Views;
 using Prism.Commands;
+using Prism.Common;
 using Prism.Mvvm;
 using Prism.Navigation.Regions;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace MaiziWPF.ViewModels
@@ -26,7 +32,15 @@ namespace MaiziWPF.ViewModels
         public ICommand MinimizeWindowCommand { get; }
         public ICommand MaximizeWindowCommand { get; }
         public ICommand CloseTabCommand { get; }
+        public ICommand MenuSelectionCommand { get; }
         public List<SysMenu> MenuItems { get; }
+        public SysMenu _ss;
+
+        public SysMenu ss
+        {
+            get { return _ss; }
+            set { SetProperty(ref _ss, value); }
+        }
 
         public String MaxsizeIcon
         {
@@ -38,6 +52,7 @@ namespace MaiziWPF.ViewModels
             get { return _selectedTab; }
             set { SetProperty(ref _selectedTab, value); }
         }
+
         public MainViewModel(IRegionManager regionManager, ISysMenuService menuService)
         {
             _menuService = menuService;
@@ -63,15 +78,38 @@ namespace MaiziWPF.ViewModels
                     Tabs.Remove(tab);
                 }
             });
+
+            MenuItems = _menuService.SelectMenuTreeAll();
+            var firstMenu=  MenuItems.First();
+            var firstMenuView = regionManager.Regions[nameof(RegionNames.ContentRegion)].GetView(firstMenu.Component);
             Tabs = new ObservableCollection<TabItem>
             {
-                new TabItem { Header = "TAB 1",TabIndex=0},
-                new TabItem { Header = "TAB 2",TabIndex=1}
+               new TabItem()
+                {
+                    Content = firstMenuView,
+                    Header = firstMenu.MenuName,
+                }
             };
             SelectedTab = Tabs[0];
 
-            MenuItems = _menuService.SelectMenuTreeAll();
+            MenuSelectionCommand = new DelegateCommand<SysMenu>(m =>
+            {
+                if (Tabs.Any(a => a.Header == m.MenuName))
+                {
+
+                }
+                else if (m.Component != null)
+                {
+                    var view = regionManager.Regions[nameof(RegionNames.ContentRegion)].GetView(m.Component);
+                    var index = Tabs.Count;
+                    Tabs.Add(new TabItem()
+                    {
+                        Content = view,
+                        Header = m.MenuName,
+                        TabIndex = index++
+                    });
+                }
+            });
         }
     }
-   
 }

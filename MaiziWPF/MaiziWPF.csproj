@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net10.0-windows7.0</TargetFramework>
+		<TargetFramework>net10.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>Assets\maizi.ico</ApplicationIcon>
 		<AppDesignerFolder>Propertys</AppDesignerFolder>
@@ -12,10 +12,11 @@
 		<PackageReference Include="Prism.DryIoc" Version="9.0.537" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-		<PackageReference Include="Volo.Abp.Core" Version="10.0.2" />
+		<PackageReference Include="Volo.Abp.Core" Version="10.0.3" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\MaiziWPF.Modules.System\MaiziWPF.Modules.System.csproj" />
+		<ProjectReference Include="..\MaiziWPF.Core\MaiziWPF.Core.csproj" />
+		<ProjectReference Include="..\MaiziWPF.Modules.Sys\MaiziWPF.Modules.Sys.csproj" />
 		<ProjectReference Include="..\MaiziWPF.Services.Application\MaiziWPF.Services.Application.csproj" />
 		<ProjectReference Include="..\MaiziWPF.Services.MySql\MaiziWPF.Services.MySql.csproj" />
 	</ItemGroup>

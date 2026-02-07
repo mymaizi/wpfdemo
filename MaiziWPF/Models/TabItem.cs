@@ -8,7 +8,7 @@ namespace MaiziWPF
     public class TabItem
     {
         public string Header { get; set; }
-        public Frame Content { get; set; }
+        public object Content { get; set; }
         public int TabIndex { get; set; }
     }
 }

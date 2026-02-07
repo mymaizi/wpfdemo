@@ -1,6 +1,6 @@
 <Solution>
   <Folder Name="/Modules/">
-    <Project Path="MaiziWPF.Modules.System/MaiziWPF.Modules.System.csproj" Id="18e5ec8c-6416-4d2c-8507-5bad8b94f92c" />
+    <Project Path="MaiziWPF.Modules.Sys/MaiziWPF.Modules.Sys.csproj" Id="1abf6097-1b2c-40c9-8b7c-ca67024b35d3" />
   </Folder>
   <Folder Name="/Services/">
     <Project Path="MaiziWPF.Services.Application.Contracts/MaiziWPF.Services.Application.Contracts.csproj" Id="a4846ac6-d8e6-410d-996d-5eb99784d754" />
@@ -9,5 +9,6 @@
     <Project Path="MaiziWPF.Services.Domain/MaiziWPF.Services.Domain.csproj" Id="b8c29fd0-9c53-4278-a57b-466a7ec71b4e" />
     <Project Path="MaiziWPF.Services.MySql/MaiziWPF.Services.MySql.csproj" Id="88ed7eba-8720-4ca3-b85f-27d23cc41d9c" />
   </Folder>
+  <Project Path="MaiziWPF.Core/MaiziWPF.Core.csproj" Id="a84b19ab-793d-470e-b0ce-443baec73176" />
   <Project Path="MaiziWPF/MaiziWPF.csproj" Id="234d5fda-d382-4c31-9fef-8c7923b02558" />
 </Solution>
