@@ -1,6 +1,9 @@
-﻿using System;
+﻿using MaiziWPF.Modules.Sys;
+using MaiziWPF.Services.Domain;
+using System;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace MaiziWPF
@@ -9,8 +12,8 @@ namespace MaiziWPF
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value is TabItem modelValue && modelValue.TabIndex != 0) ?
-                Visibility.Visible : Visibility.Collapsed;
+            return (value is SysMenu menu && menu.Component==nameof(DashboardView)) ?
+                Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

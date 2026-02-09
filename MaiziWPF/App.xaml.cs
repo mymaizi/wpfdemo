@@ -97,5 +97,10 @@ namespace MaiziWPF
             containerExtension.Populate(app.Services);
             return containerExtension;
         }
+        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
+        {
+            base.ConfigureRegionAdapterMappings(regionAdapterMappings);
+            regionAdapterMappings.RegisterMapping(typeof(TabControl), Container.Resolve<TabControlRegionAdapter>());
+        }
     }
 }

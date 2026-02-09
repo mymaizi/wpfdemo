@@ -191,20 +191,20 @@
                 <TabControl
                     Grid.Row="1"
                     HorizontalContentAlignment="Left"
-                    ItemsSource="{Binding Tabs}"
-                    SelectedItem="{Binding SelectedTab}">
+                    prism:RegionManager.RegionName="TabRegion"
+                    SelectedItem="{Binding SelectedItem}">
                     <TabControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel
                                 Height="15"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
-                                <TextBlock Text="{Binding Header}" />
+                                <TextBlock Text="{Binding DataContext.TabMenu.MenuName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}" />
                                 <Button
                                     Margin="8,0,0,0"
-                                    Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"
-                                    CommandParameter="{Binding}"
-                                    Visibility="{Binding Converter={StaticResource TabItemVisibilityConverter}}">
+                                    Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}"
+                                    CommandParameter="{Binding DataContext.TabMenu, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}"
+                                    Visibility="{Binding DataContext.TabMenu, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}, Converter={StaticResource TabItemVisibilityConverter}}">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <materialDesign:PackIcon
@@ -222,11 +222,6 @@
                             </StackPanel>
                         </DataTemplate>
                     </TabControl.ItemTemplate>
-                    <TabControl.ContentTemplate>
-                        <DataTemplate>
-                            <ContentControl Content="{Binding Content}" />
-                        </DataTemplate>
-                    </TabControl.ContentTemplate>
                 </TabControl>
             </Grid>
         </Border>

@@ -1,0 +1,37 @@
+﻿<UserControl
+    x:Class="MaiziWPF.Modules.Sys.UserListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:domain="clr-namespace:MaiziWPF.Services.Domain;assembly=MaiziWPF.Services.Domain"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!--  部门  -->
+        <StackPanel>
+            <TextBox Text="{Binding SearchDeptText}" />
+            <materialDesign:TreeListView ItemsSource="{Binding DeptItems}" SelectedItem="{Binding SelectedDept}">
+                <materialDesign:TreeListView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type domain:SysDept}" ItemsSource="{Binding Childs}" />
+                </materialDesign:TreeListView.Resources>
+                <materialDesign:TreeListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding DeptName}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </materialDesign:TreeListView.View>
+            </materialDesign:TreeListView>
+        </StackPanel>
+    </Grid>
+</UserControl>

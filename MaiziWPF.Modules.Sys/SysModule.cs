@@ -15,12 +15,19 @@ namespace MaiziWPF.Modules.Sys
         }
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.Regions[RegionNames.ContentRegion].Add(typeof(DashboardView), nameof(DashboardView));
+            
         }
-
+       
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<DashboardView>();
+            containerRegistry.RegisterForNavigation<UserListView>();
+            containerRegistry.RegisterForNavigation<RoleListView>();
+            containerRegistry.RegisterForNavigation<MenuListView>();
+            containerRegistry.RegisterForNavigation<DeptListView>();
+            containerRegistry.RegisterForNavigation<PostListView>();
+            containerRegistry.RegisterForNavigation<DictListView>();
+            containerRegistry.RegisterForNavigation<ConfigListView>();
         }
     }
 }

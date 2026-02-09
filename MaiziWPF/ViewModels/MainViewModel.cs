@@ -1,16 +1,22 @@
-﻿using FreeSql.DataAnnotations;
+﻿using DryIoc;
+using DryIoc.ImTools;
+using FreeSql.DataAnnotations;
 using MaiziWPF.Core;
+using MaiziWPF.Modules.Sys;
 using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using MaiziWPF.Views;
 using Prism.Commands;
 using Prism.Common;
+using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Navigation;
 using Prism.Navigation.Regions;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -20,26 +26,29 @@ using System.Windows.Input;
 
 namespace MaiziWPF.ViewModels
 {
-    public class MainViewModel : BindableBase
+    public class MainViewModel : BindableBase,INavigationAware
     {
         private readonly ISysMenuService _menuService;
         private readonly Window _mainWindow;
         private readonly IRegionManager _regionManager;
         private String _maxsizeIcon = "Maximize";
-        public ObservableCollection<TabItem> Tabs { get; }
-        private TabItem _selectedTab;
         public ICommand CloseWindowCommand { get; }
         public ICommand MinimizeWindowCommand { get; }
         public ICommand MaximizeWindowCommand { get; }
         public ICommand CloseTabCommand { get; }
         public ICommand MenuSelectionCommand { get; }
         public List<SysMenu> MenuItems { get; }
-        public SysMenu _ss;
-
-        public SysMenu ss
+        public object _selectedItem;
+        public object SelectedItem
         {
-            get { return _ss; }
-            set { SetProperty(ref _ss, value); }
+            get { return _selectedItem; }
+            set { SetProperty(ref _selectedItem, value); }
+        }
+        public SysMenu _tabMenu;
+        public SysMenu TabMenu
+        {
+            get { return _tabMenu; }
+            set { SetProperty(ref _tabMenu, value); }
         }
 
         public String MaxsizeIcon
@@ -47,13 +56,8 @@ namespace MaiziWPF.ViewModels
             get { return _maxsizeIcon; }
             set { SetProperty(ref _maxsizeIcon, value); }
         }
-        public TabItem SelectedTab
-        {
-            get { return _selectedTab; }
-            set { SetProperty(ref _selectedTab, value); }
-        }
-
-        public MainViewModel(IRegionManager regionManager, ISysMenuService menuService)
+     
+        public MainViewModel(IRegionManager regionManager, IContainerProvider containerProvider, ISysMenuService menuService)
         {
             _menuService = menuService;
             _mainWindow = Application.Current.MainWindow as Window;
@@ -71,45 +75,45 @@ namespace MaiziWPF.ViewModels
                 _mainWindow?.WindowState = _mainWindow?.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
                 MaxsizeIcon = _mainWindow?.WindowState == WindowState.Maximized ? "WindowMaximize" : "Maximize";
             });
-            CloseTabCommand = new DelegateCommand<TabItem>((tab) =>
+            CloseTabCommand = new DelegateCommand<SysMenu>(menu =>
             {
-                if (tab != null && Tabs.Contains(tab))
+                var tabRegion = _regionManager.Regions[RegionNames.TabRegion];
+                var currentView = tabRegion.GetView(menu.Component);
+                if (currentView != null)
                 {
-                    Tabs.Remove(tab);
+                    tabRegion.Remove(currentView);
                 }
             });
-
             MenuItems = _menuService.SelectMenuTreeAll();
-            var firstMenu=  MenuItems.First();
-            var firstMenuView = regionManager.Regions[nameof(RegionNames.ContentRegion)].GetView(firstMenu.Component);
-            Tabs = new ObservableCollection<TabItem>
-            {
-               new TabItem()
-                {
-                    Content = firstMenuView,
-                    Header = firstMenu.MenuName,
-                }
-            };
-            SelectedTab = Tabs[0];
-
             MenuSelectionCommand = new DelegateCommand<SysMenu>(m =>
             {
-                if (Tabs.Any(a => a.Header == m.MenuName))
+                var tabRegion = _regionManager.Regions[RegionNames.TabRegion];
+                if (!tabRegion.Views.Any(v => v.GetType().Name == m.Component))
                 {
-
+                    _tabMenu = m;
+                    tabRegion.Add(m.Component);
                 }
-                else if (m.Component != null)
-                {
-                    var view = regionManager.Regions[nameof(RegionNames.ContentRegion)].GetView(m.Component);
-                    var index = Tabs.Count;
-                    Tabs.Add(new TabItem()
-                    {
-                        Content = view,
-                        Header = m.MenuName,
-                        TabIndex = index++
-                    });
-                }
+                SelectedItem = tabRegion.GetView(m.Component);
             });
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            var firstMenu = MenuItems.First();
+            if (firstMenu != null)
+            {
+                _tabMenu = firstMenu;
+                _regionManager.Regions[RegionNames.TabRegion].Add(firstMenu.Component);
+            }
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
     }
 }
