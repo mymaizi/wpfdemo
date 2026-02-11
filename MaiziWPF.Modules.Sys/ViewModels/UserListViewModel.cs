@@ -1,14 +1,14 @@
-﻿using MaiziWPF.Services.Domain;
+﻿using MaiziWPF.Services.Application.Contracts;
+using MaiziWPF.Services.Domain;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Navigation.Regions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
 {
-    public class UserListViewModel : BindableBase,INavigationAware
+    public class UserListViewModel : BindableBase
     {
         public List<SysDept> DeptItems { get; }
         private String _searchDeptText;
@@ -18,30 +18,16 @@ namespace MaiziWPF.Modules.Sys
             get { return _searchDeptText; ; }
             set { SetProperty(ref _searchDeptText, value); }
         }
-        private SysDept _selectedDept;
-
-        public SysDept SelectedDept
+        private readonly ISysDeptService _deptService;
+        public ICommand DeptSelectionCommand { get; }
+        public UserListViewModel(ISysDeptService deptService)
         {
-            get { return _selectedDept; ; }
-            set { SetProperty(ref _selectedDept,value); }
-        }
+            _deptService = deptService;
+            DeptItems = _deptService.SelectDeptTreeList(new SysDept());
+            DeptSelectionCommand = new DelegateCommand<SysDept>(obj =>
+            {
 
-        public UserListViewModel()
-        {
-
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
+            });
         }
     }
 }

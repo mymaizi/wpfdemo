@@ -4,12 +4,12 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace MaiziWPF
+namespace MaiziWPF.Core
 {
-    public static class PasswordBoxProperty
+    public static class PasswordBoxAssist
     {
         public static readonly DependencyProperty PasswordProperty =
-           DependencyProperty.RegisterAttached("Password", typeof(string), typeof(PasswordBoxProperty),
+           DependencyProperty.RegisterAttached("Password", typeof(string), typeof(PasswordBoxAssist),
                new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
 
         public static string GetPassword(DependencyObject obj)

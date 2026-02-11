@@ -6,7 +6,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace MaiziWPF.Services.Application.Contracts
 {
-    public interface ISysMenuService: ITransientDependency
+    public interface ISysMenuService : ITransientDependency
     {
         /**
        * 查询所有菜单

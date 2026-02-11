@@ -13,7 +13,7 @@ namespace MaiziWPF.Services.Domain
     {
         /** 部门ID */
         [Column(Name = "dept_id", IsIdentity = true, IsPrimary = true)]
-        public Int64 DeptId { get; set; }
+        public Int64 Id { get; set; }
         /** 父部门ID */
         [Column(Name = "parent_id")]
         public Int64 ParentId { get; set; }
@@ -38,11 +38,8 @@ namespace MaiziWPF.Services.Domain
         /** 删除标志（0代表存在 2代表删除） */
         [Column(Name = "status")]
         public String Status { get; set; }
-        /** 父部门 */
-        [Navigate(nameof(ParentId))]
-        public SysDept Parent { get; set; }
         /** 子部门 */
         [Navigate(nameof(ParentId))]
-        public List<SysDept> Children { get; set; }
+        public List<SysDept> Childs { get; set; }
     }
 }

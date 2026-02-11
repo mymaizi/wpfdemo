@@ -35,6 +35,11 @@
                     FontSize="14"
                     Header="Exit" />
             </ContextMenu>
+            <Style x:Key="FormCardStyle" TargetType="materialDesign:Card">
+                <Setter Property="Margin" Value="0,0,10,6" />
+                <Setter Property="Padding" Value="8,4,8,4" />
+                <Setter Property="Width" Value="200" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

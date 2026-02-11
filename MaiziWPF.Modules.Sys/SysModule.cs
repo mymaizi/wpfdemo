@@ -1,4 +1,5 @@
 ﻿using MaiziWPF.Core;
+using MaiziWPF.Services.Application.Contracts;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -15,7 +16,6 @@ namespace MaiziWPF.Modules.Sys
         }
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            
         }
        
         public void RegisterTypes(IContainerRegistry containerRegistry)

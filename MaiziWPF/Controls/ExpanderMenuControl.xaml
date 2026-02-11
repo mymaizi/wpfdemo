@@ -116,6 +116,7 @@
                                         <Setter Property="Padding" Value="24,0,0,0" />
                                         <Setter Property="BorderThickness" Value="4,0,0,0" />
                                         <Setter Property="Height" Value="45" />
+                                        <Setter Property="Margin" Value="0,0,0,5" />
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="BorderBrush" Value="#afa1f5" />

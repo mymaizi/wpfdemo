@@ -196,10 +196,10 @@
                     <TabControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel
-                                Height="15"
+                                Height="18"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
-                                <TextBlock Text="{Binding DataContext.TabMenu.MenuName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}" />
+                                <TextBlock FontSize="16" Text="{Binding DataContext.TabMenu.MenuName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}" />
                                 <Button
                                     Margin="8,0,0,0"
                                     Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}"
