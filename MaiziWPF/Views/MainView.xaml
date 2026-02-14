@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:domain="clr-namespace:MaiziWPF.Services.Domain;assembly=MaiziWPF.Services.Domain"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:local="clr-namespace:MaiziWPF"
+    xmlns:maiziWPF="clr-namespace:MaiziWPF.Core;assembly=MaiziWPF.Core"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
@@ -16,7 +16,7 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <local:TabItemVisibilityConverter x:Key="TabItemVisibilityConverter" />
+        <maiziWPF:TabItemVisibilityConverter x:Key="TabItemVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -76,7 +76,7 @@
                 <ItemsControl x:Name="dd" ItemsSource="{Binding MenuItems}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <local:ExpanderMenuControl />
+                            <maiziWPF:ExpanderMenuControl />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -204,7 +204,7 @@
                                     Margin="8,0,0,0"
                                     Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}"
                                     CommandParameter="{Binding DataContext.TabMenu, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}"
-                                    Visibility="{Binding DataContext.TabMenu, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}, Converter={StaticResource TabItemVisibilityConverter}}">
+                                    Visibility="{Binding DataContext.TabMenu, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}, Converter={StaticResource TabItemVisibilityConverter}, ConverterParameter='DashboardView'}">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <materialDesign:PackIcon

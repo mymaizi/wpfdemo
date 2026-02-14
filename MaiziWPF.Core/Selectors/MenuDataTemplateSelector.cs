@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace MaiziWPF
+namespace MaiziWPF.Core
 {
     public class MenuDataTemplateSelector: DataTemplateSelector
     {

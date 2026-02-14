@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace MaiziWPF.Core
 {
-    public class DataDictAssist
+    public static class DataDictAssist
     {
         public static readonly DependencyProperty DataDictProperty =
           DependencyProperty.RegisterAttached("Type", typeof(string), typeof(DataDictAssist),

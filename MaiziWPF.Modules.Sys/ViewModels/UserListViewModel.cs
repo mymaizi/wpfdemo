@@ -18,8 +18,23 @@ namespace MaiziWPF.Modules.Sys
             get { return _searchDeptText; ; }
             set { SetProperty(ref _searchDeptText, value); }
         }
+        private DateTime _searchStartDate;
+
+        public DateTime SearchStartDate
+        {
+            get { return _searchStartDate; ; }
+            set { SetProperty(ref _searchStartDate, value); }
+        }
+        private DateTime _searchEndDate;
+
+        public DateTime SearchEndDate
+        {
+            get { return _searchEndDate; ; }
+            set { SetProperty(ref _searchEndDate, value); }
+        }
         private readonly ISysDeptService _deptService;
         public ICommand DeptSelectionCommand { get; }
+        public ICommand SearchButtonCommand { get; }
         public UserListViewModel(ISysDeptService deptService)
         {
             _deptService = deptService;
@@ -27,6 +42,10 @@ namespace MaiziWPF.Modules.Sys
             DeptSelectionCommand = new DelegateCommand<SysDept>(obj =>
             {
 
+            });
+            SearchButtonCommand = new DelegateCommand(() =>
+            {
+               
             });
         }
     }

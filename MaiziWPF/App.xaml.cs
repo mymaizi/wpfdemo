@@ -67,9 +67,7 @@ namespace MaiziWPF
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<MaiziWPFCoreModule>();
             moduleCatalog.AddModule<SysModule>();
-
         }
         protected override IContainerExtension CreateContainerExtension()
         {

@@ -34,6 +34,7 @@ namespace MaiziWPF.ViewModels
             });
             LoginCommand = new DelegateCommand(LoginHandle);
             UserName = "admin";
+            Password = "admin123";
         }
 
         private void LoginHandle()

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace MaiziWPF
+namespace MaiziWPF.Core
 {
     /// <summary>
     /// UserControl1.xaml 的交互逻辑

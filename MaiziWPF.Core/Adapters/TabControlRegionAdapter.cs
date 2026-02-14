@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Controls;
 
-namespace MaiziWPF
+namespace MaiziWPF.Core
 {
     public class TabControlRegionAdapter : RegionAdapterBase<TabControl>
     {

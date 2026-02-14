@@ -24,10 +24,8 @@ namespace MaiziWPF.Core
 
         private static void OnPasswordPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-           
             if (d is PasswordBox passwordBox)
             {
-                SetPassword(passwordBox, "admin123");
                 passwordBox.PasswordChanged += PasswordBox_PasswordChanged;
             }
         }
