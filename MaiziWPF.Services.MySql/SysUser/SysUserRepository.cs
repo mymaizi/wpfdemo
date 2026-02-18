@@ -1,8 +1,6 @@
 ﻿using FreeSql;
 using MaiziWPF.Services.Domain;
-using System.Data;
-using System.Linq;
-using System.Linq.Expressions;
+using MaiziWPF.Services.Domain.Shared;
 
 namespace MaiziWPF.Services.MySql
 {
@@ -18,19 +16,38 @@ namespace MaiziWPF.Services.MySql
 
         public SysUser SelectUserByUserName(string userName)
         {
-            try
-            {
-                return _fsql.Select<SysUser>()
+               return _fsql.Select<SysUser>()
                     .IncludeMany(a => a.Roles)
                     .IncludeMany(a=>a.Depts)
                     .IncludeMany(a=>a.Posts)
                     .Where(a=>a.UserName == userName)
                     .First();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+          
+        }
+
+        public List<SysUser> SelectUserList(QueryUserInput input)
+        {
+            System.Linq.Expressions.Expression<Func<SysUser, bool>> where = d => d.DelFlag == "0";
+
+            if (!string.IsNullOrEmpty(input.UserName))
+                where = where.And(u => u.UserName.Contains(input.UserName));
+            if (!string.IsNullOrEmpty(input.Phonenumber))
+                where = where.And(u => u.Phonenumber.Contains(input.Phonenumber));
+            if (!string.IsNullOrEmpty(input.Status))
+                where = where.And(u => u.Status.Contains(input.Status));
+            if (input.StartDate.HasValue && input.EndDate.HasValue)
+                where = where.And(u => u.CreateTime.Between(input.StartDate.Value, input.EndDate.Value));
+
+            return _fsql.Select<SysUser, SysUserDept, SysDept>()
+                       .LeftJoin((u, ud, d) => u.UserId == ud.UserId)
+                       .LeftJoin((u, ud, d) => ud.DeptId == d.Id)
+                       .Distinct()
+                       .WhereIf(input.DeptId.HasValue, (u, ud, d) => d.Ancestors.Contains(input.DeptId.Value.ToString()))
+                       .WithTempQuery((u, ud, d) => u)
+                       .IncludeMany(a => a.Depts)
+                       .Where(where)
+                       .Page(input)
+                       .ToList();
         }
     }
 }

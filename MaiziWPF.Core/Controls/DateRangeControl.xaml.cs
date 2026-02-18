@@ -26,7 +26,7 @@ namespace MaiziWPF.Core
         public DateTime EndDateTime { get => (DateTime)GetValue(EndDateProperty); set => SetValue(EndDateProperty, value); }
         public DateRangeControl()
         {
-            InitializeComponent();
+            InitializeComponent(); 
             this.CancelDateRange.Click += CancelDateRange_Click;
             this.ConfirmDateRange.Click += ConfirmDateRange_Click;
             this.StartDate.SelectedDatesChanged += StartDate_SelectedDatesChanged;
@@ -48,8 +48,8 @@ namespace MaiziWPF.Core
             Calendar calendar = sender as Calendar;
             if (calendar != null && calendar.SelectedDate.HasValue)
             {
-                this.StartDate.DisplayDate= calendar.SelectedDate.Value;
-                this.StartDate.DisplayDateEnd = calendar.SelectedDate.Value;
+                this.StartDate.BlackoutDates.Clear();
+                this.StartDate.BlackoutDates.Add(new CalendarDateRange(calendar.SelectedDate.Value.AddDays(1), DateTime.MaxValue));
             }
         }
 
@@ -58,8 +58,8 @@ namespace MaiziWPF.Core
             Calendar calendar = sender as Calendar;
             if (calendar != null && calendar.SelectedDate.HasValue)
             {
-                this.EndDate.DisplayDate = calendar.SelectedDate.Value;
-                this.EndDate.DisplayDateStart = calendar.SelectedDate.Value;
+                this.EndDate.BlackoutDates.Clear();
+                this.EndDate.BlackoutDates.Add(new CalendarDateRange(DateTime.MinValue, calendar.SelectedDate.Value.AddDays(-1)));
             }
         }
 
@@ -83,6 +83,8 @@ namespace MaiziWPF.Core
             this.EndDate.SelectedDate = null;
             this.EndDate.DisplayDateStart = null;
             this.EndDate.DisplayDateEnd = null;
+            this.StartDate.BlackoutDates.Clear();
+            this.EndDate.BlackoutDates.Clear();
             this.DateRangePopupBox.IsPopupOpen = false;
         }
     }

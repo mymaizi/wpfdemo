@@ -41,6 +41,10 @@
                                             <Setter TargetName="Border" Property="Background" Value="#2196F3" />
                                             <Setter Property="Foreground" Value="White" />
                                         </Trigger>
+                                        <Trigger Property="IsBlackedOut" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="#FFE7E5E5" />
+                                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFE7E5E5" />
+                                        </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>

@@ -8,6 +8,11 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <maiziWPF:DateTimeConverter x:Key="DateTimeConverter" />
+        <maiziWPF:BooleanConverter x:Key="BooleanConverter" />
+        <maiziWPF:ListToStringConverter x:Key="ListToStringConverter" />
+    </UserControl.Resources>
     <Border Background="WhiteSmoke" CornerRadius="0 0 10 0">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -28,7 +33,7 @@
                                 materialDesign:TextFieldAssist.HasClearButton="True"
                                 BorderThickness="0"
                                 FontSize="16"
-                                Text="{Binding SearchDeptText}" />
+                                Text="{Binding QueryUserInput.DeptName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
                     </materialDesign:Card>
                     <materialDesign:TreeListView ItemsSource="{Binding DeptItems}">
@@ -66,6 +71,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <!--  条件  -->
                 <WrapPanel>
@@ -75,7 +81,8 @@
                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             BorderThickness="0"
-                            FontSize="16" />
+                            FontSize="16"
+                            Text="{Binding QueryUserInput.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </materialDesign:Card>
                     <materialDesign:Card Width="200" Style="{StaticResource FormCardStyle}">
                         <TextBox
@@ -83,7 +90,8 @@
                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             BorderThickness="0"
-                            FontSize="16" />
+                            FontSize="16"
+                            Text="{Binding QueryUserInput.Phonenumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </materialDesign:Card>
                     <materialDesign:Card Width="200" Style="{StaticResource FormCardStyle}">
                         <ComboBox
@@ -92,7 +100,8 @@
                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             BorderThickness="0"
-                            FontSize="16">
+                            FontSize="16"
+                            SelectedItem="{Binding QueryUserInput.Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type domain:SysDictData}">
                                     <StackPanel Orientation="Horizontal">
@@ -103,7 +112,7 @@
                         </ComboBox>
                     </materialDesign:Card>
                     <materialDesign:Card Width="280" Style="{StaticResource FormCardStyle}">
-                        <maiziWPF:DateRangeControl EndDateTime="{Binding SearchEndDate, Mode=TwoWay}" StartDateTime="{Binding SearchStartDate, Mode=TwoWay}" />
+                        <maiziWPF:DateRangeControl EndDateTime="{Binding QueryUserInput.StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" StartDateTime="{Binding QueryUserInput.EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </materialDesign:Card>
                     <StackPanel Margin="6,0,0,6" Orientation="Horizontal">
                         <Button
@@ -122,7 +131,96 @@
                     </StackPanel>
                 </WrapPanel>
                 <!--  表格  -->
-                <DataGrid Grid.Row="1" />
+                <DataGrid
+                    Grid.Row="1"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    GridLinesVisibility="None"
+                    ItemsSource="{Binding UserItems}">
+                    <DataGrid.CellStyle>
+                        <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="DataGridCell">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding UserId}"
+                            Header="用户编号"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Binding="{Binding UserName}"
+                            Header="用户名称"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Binding="{Binding NickName}"
+                            Header="用户昵称"
+                            IsReadOnly="True" />
+                        <DataGridTemplateColumn Header="部门">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Depts, Converter={StaticResource ListToStringConverter}, ConverterParameter='DeptName'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn
+                            Binding="{Binding Phonenumber}"
+                            Header="手机号码"
+                            IsReadOnly="True" />
+                        <DataGridTemplateColumn Header="状态">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ToggleButton IsChecked="{Binding Status, Converter={StaticResource BooleanConverter}}" Style="{StaticResource MaterialDesignSwitchToggleButton}">
+                                        <materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                                            <SolidColorBrush Color="#cf3539" />
+                                        </materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                                    </ToggleButton>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn
+                            Binding="{Binding CreateTime, Converter={StaticResource DateTimeConverter}}"
+                            Header="创建时间"
+                            IsReadOnly="True" />
+                        <DataGridTemplateColumn Header="操作">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button
+                                            Padding="5"
+                                            Content="修改"
+                                            Foreground="#1890ff"
+                                            Style="{StaticResource MaterialDesignFlatLightButton}" />
+                                        <Button
+                                            Padding="5"
+                                            Content="删除"
+                                            Foreground="#cf3539"
+                                            Style="{StaticResource MaterialDesignFlatLightButton}" />
+                                        <Menu materialDesign:MenuAssist.MenuItemsPresenterMargin="3" materialDesign:MenuAssist.TopLevelMenuItemHeight="30">
+                                            <MenuItem Padding="5" Header="更多&gt;&gt;">
+                                                <MenuItem Header="重置密码" />
+                                                <MenuItem Header="分配角色" />
+                                            </MenuItem>
+                                        </Menu>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <maiziWPF:PageControl
+                    Grid.Row="2"
+                    Margin="0,0,10,10"
+                    HorizontalAlignment="Right"
+                    Count="{Binding Count}"
+                    NextCommand="{Binding NextButtonCommand}"
+                    PageNumber="{Binding PageNumber}"
+                    PageSize="{Binding PageSize}"
+                    PrevCommand="{Binding PrevButtonCommand}" />
             </Grid>
         </Grid>
     </Border>

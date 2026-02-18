@@ -1,4 +1,5 @@
 ﻿using MaiziWPF.Services.Domain;
+using MaiziWPF.Services.Domain.Shared;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,5 +16,12 @@ namespace MaiziWPF.Services.Application.Contracts
         * @return 用户对象信息
         */
         public SysUser SelectUserByUserName(String userName);
+        /**
+        * 根据条件分页查询用户列表
+        * 
+        * @param user 用户信息
+        * @return 用户信息集合信息
+        */
+        public List<SysUser> SelectUserList(QueryUserInput input);
     }
 }
