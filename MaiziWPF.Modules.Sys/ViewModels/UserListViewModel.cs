@@ -44,12 +44,12 @@ namespace MaiziWPF.Modules.Sys
                 QueryUserInput.PageNumber = 1;
                 SearchUser(QueryUserInput);
             });
-            PrevButtonCommand = new DelegateCommand<SysDept>(obj =>
+            PrevButtonCommand = new DelegateCommand(() =>
             {
                 QueryUserInput.PageNumber--;
                 SearchUser(QueryUserInput);
             });
-            NextButtonCommand = new DelegateCommand<SysDept>(obj =>
+            NextButtonCommand = new DelegateCommand(() =>
             {
                 QueryUserInput.PageNumber++;
                 SearchUser(QueryUserInput);
