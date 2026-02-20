@@ -14,7 +14,7 @@ namespace MaiziWPF.Services.Domain
         [Column(Name = "menu_id", IsIdentity = true, IsPrimary = true)]
         public Int64 Id { get; set; }
         /** 菜单名称 */
-        [Column(Name = "menu_name")]
+        [Column(Name = "menu_name",DbType = "varchar(50)")]
         public String MenuName { get; set; }
         /** 父菜单ID */
         [Column(Name = "parent_id")]
@@ -23,31 +23,28 @@ namespace MaiziWPF.Services.Domain
         [Column(Name = "order_num")]
         public Int32 OrderNum { get; set; }
         /** 菜单类型（M目录 C菜单 F按钮） */
-        [Column(Name = "menu_type")]
+        [Column(Name = "menu_type", DbType = "char(1)")]
         public String MenuType { get; set; }
-        /** 菜单显示状态（0显示 1隐藏） */
-        [Column(Name = "visible")]
-        public String Visible { get; set; }
         /** 菜单状态（0正常 1停用） */
-        [Column(Name = "status")]
+        [Column(Name = "status", DbType = "char(1)")]
         public String Status { get; set; }
         /** 权限标识 */
-        [Column(Name = "perms")]
+        [Column(Name = "perms", DbType = "varchar(100)")]
         public String Perms { get; set; }
         /** 菜单图标 */
-        [Column(Name = "icon")]
+        [Column(Name = "icon", DbType = "varchar(100)")]
         public String Icon { get; set; }
         /** 备注 */
-        [Column(Name = "remark")]
+        [Column(Name = "remark", DbType = "varchar(500)")]
         public String Remark { get; set; }
         /** 层级 */
         [Column(Name = "level")]
         public Int32 Level { get; set; }
         /** 视图路径 */
-        [Column(Name = "component")]
+        [Column(Name = "component", DbType = "varchar(255)")]
         public String Component { get; set; }
         /** 视图参数 */
-        [Column(Name = "query")]
+        [Column(Name = "query", DbType = "varchar(255)")]
         public String Query { get; set; }
         [Navigate(nameof(ParentId))]
         public List<SysMenu> Childs { get; set; }

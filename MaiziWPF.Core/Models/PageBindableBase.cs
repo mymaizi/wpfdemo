@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 
 namespace MaiziWPF.Core
 {
@@ -13,5 +14,9 @@ namespace MaiziWPF.Core
         public int PageSize { get => _pageSize; set => SetProperty(ref _pageSize, value); }
         private long _count;
         public long Count { get => _count; set => SetProperty(ref _count, value); }
+
+        public ICommand SearchButtonCommand { get; set; }
+        public ICommand PrevButtonCommand { get; set; }
+        public ICommand NextButtonCommand { get; set; }
     }
 }

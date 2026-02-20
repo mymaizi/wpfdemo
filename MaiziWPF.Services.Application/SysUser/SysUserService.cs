@@ -9,7 +9,6 @@ namespace MaiziWPF.Services.Application
         private readonly ISysUserRepository _repository;
 
         public SysUserService(ISysUserRepository repository)
-
         {
             _repository = repository;
         }

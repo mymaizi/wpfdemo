@@ -23,9 +23,7 @@ namespace MaiziWPF.Modules.Sys
             set { SetProperty(ref _queryRoleInput, value); }
         }
         private readonly ISysRoleService _roleService;
-        public ICommand SearchButtonCommand { get; }
-        public ICommand PrevButtonCommand { get; }
-        public ICommand NextButtonCommand { get; }
+   
         public RoleListViewModel(ISysRoleService roleService)
         {
             _roleService = roleService;

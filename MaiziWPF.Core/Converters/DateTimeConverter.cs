@@ -11,7 +11,8 @@ namespace MaiziWPF.Core
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((DateTime)value).ToString("yyyy-MM-dd");
+            string _parameter = string.IsNullOrEmpty((string)parameter) ? "yyyy-MM-dd" : (string)parameter;
+            return ((DateTime)value).ToString(_parameter);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
