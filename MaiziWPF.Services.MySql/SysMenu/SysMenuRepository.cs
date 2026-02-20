@@ -19,6 +19,8 @@ namespace MaiziWPF.Services.MySql
                 where = where.And(w => w.MenuName.Contains(menu.MenuName));
             if (!string.IsNullOrEmpty(menu.Status))
                 where = where.And(w => w.Status == menu.Status);
+            if (!string.IsNullOrEmpty(menu.MenuType))
+                where = where.And(w => menu.MenuType.Split(',').Contains(w.MenuType));
 
             return _fsql.Select<SysMenu>().Where(where).OrderBy(o => o.OrderNum).ToTreeList();
         }
@@ -40,11 +42,6 @@ namespace MaiziWPF.Services.MySql
                      .Where(where)
                      .OrderBy(o=>o.OrderNum)
                      .ToTreeList();
-        }
-
-        public List<SysMenu> SelectMenuTreeAll()
-        {
-            return _fsql.Select<SysMenu>().Where(a => new[] { "M", "C" }.Contains(a.MenuType) && a.Status=="0").OrderBy(a => new { a.ParentId, a.OrderNum }).ToTreeList();
         }
     }
 }

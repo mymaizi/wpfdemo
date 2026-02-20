@@ -14,6 +14,6 @@ namespace MaiziWPF.Services.Application.Contracts
         * @param dept 部门信息
         * @return 部门树信息集合
         */
-        public List<SysDept> SelectDeptTreeList(SysDept dept);
+        public List<SysDept> SelectDeptList(SysDept dept);
     }
 }

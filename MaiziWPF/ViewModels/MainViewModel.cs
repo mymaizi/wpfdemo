@@ -71,7 +71,12 @@ namespace MaiziWPF.ViewModels
                     tabRegion.Remove(currentView);
                 }
             });
-            MenuItems = _menuService.SelectMenuTreeAll();
+            MenuItems = _menuService.SelectMenuList(new SysMenu()
+            {
+                MenuType = "M,C",
+                Status = "0"
+            }, 1);
+
             MenuSelectionCommand = new DelegateCommand<SysMenu>(m =>
             {
                 var tabRegion = _regionManager.Regions[RegionNames.TabRegion];

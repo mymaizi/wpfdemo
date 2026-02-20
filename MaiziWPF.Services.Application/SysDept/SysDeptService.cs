@@ -16,7 +16,7 @@ namespace MaiziWPF.Services.Application
             _repository = repository;
         }
 
-        public List<SysDept> SelectDeptTreeList(SysDept dept)
+        public List<SysDept> SelectDeptList(SysDept dept)
         {
            return _repository.SelectDeptList(dept);
         }

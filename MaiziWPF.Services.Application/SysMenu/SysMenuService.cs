@@ -28,10 +28,5 @@ namespace MaiziWPF.Services.Application
             }
             return menuList;
         }
-
-        public List<SysMenu> SelectMenuTreeAll()
-        {
-            return _repository.SelectMenuTreeAll();
-        }
     }
 }

@@ -76,7 +76,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="排序">
+                            <GridViewColumn Header="图标">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <materialDesign:PackIcon HorizontalAlignment="Center" Kind="{Binding Icon}" />
@@ -128,7 +128,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="创建时间">
+                            <GridViewColumn Header="操作">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">

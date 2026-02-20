@@ -69,7 +69,7 @@ namespace MaiziWPF.Modules.Sys
         private void SearchDept(QueryUserInput queryUserInput)
         {
             DeptItems.Clear();
-            var _list = _deptService.SelectDeptTreeList(new SysDept()
+            var _list = _deptService.SelectDeptList(new SysDept()
             {
                 DeptName = queryUserInput.DeptName,
             });

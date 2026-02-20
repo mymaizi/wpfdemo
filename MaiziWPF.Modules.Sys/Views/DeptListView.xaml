@@ -1,9 +1,140 @@
-﻿<UserControl x:Class="MaiziWPF.Modules.Sys.DeptListView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
-             prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
-            
-    </Grid>
+﻿<UserControl
+    x:Class="MaiziWPF.Modules.Sys.DeptListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:domain="clr-namespace:MaiziWPF.Services.Domain;assembly=MaiziWPF.Services.Domain"
+    xmlns:maiziWPF="clr-namespace:MaiziWPF.Core;assembly=MaiziWPF.Core"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <maiziWPF:DateTimeConverter x:Key="DateTimeConverter" />
+    </UserControl.Resources>
+    <Border Background="WhiteSmoke" CornerRadius="0 0 10 0">
+        <Grid Margin="10,6,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!--  条件  -->
+            <WrapPanel>
+                <materialDesign:Card Width="200" Style="{StaticResource FormCardStyle}">
+                    <TextBox
+                        materialDesign:HintAssist.Hint="请输入部门名称"
+                        materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        BorderThickness="0"
+                        FontSize="16"
+                        Text="{Binding DeptName}" />
+                </materialDesign:Card>
+                <materialDesign:Card Width="200" Style="{StaticResource FormCardStyle}">
+                    <ComboBox
+                        maiziWPF:DataDictAssist.Type="sys_normal_disable"
+                        materialDesign:HintAssist.Hint="部门状态"
+                        materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        BorderThickness="0"
+                        FontSize="16"
+                        SelectedItem="{Binding Status}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type domain:SysDictData}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding DictLabel}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </materialDesign:Card>
+                <StackPanel Margin="6,0,0,6" Orientation="Horizontal">
+                    <Button
+                        Margin="0,0,8,0"
+                        Background="#1890ff"
+                        BorderBrush="#1890ff"
+                        Command="{Binding SearchButtonCommand}"
+                        Content="搜索"
+                        Foreground="#fff"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}" />
+                    <Button
+                        BorderBrush="#dcdfe6"
+                        Content="重置"
+                        Foreground="#606266"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                </StackPanel>
+            </WrapPanel>
+            <!--  表格  -->
+            <materialDesign:TreeListView Grid.Row="1" ItemsSource="{Binding DeptItems}">
+                <materialDesign:TreeListView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type domain:SysDept}" ItemsSource="{Binding Childs}" />
+                </materialDesign:TreeListView.Resources>
+                <materialDesign:TreeListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Width="200" Header="部门名称">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding DeptName}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="排序">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding OrderNum}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="状态">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type domain:SysDept}">
+                                        <Label x:Name="statusLabel" HorizontalAlignment="Center" />
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Status}" Value="1">
+                                                <Setter TargetName="statusLabel" Property="Content" Value="停用" />
+                                                <Setter TargetName="statusLabel" Property="Foreground" Value="#999999" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="0">
+                                                <Setter TargetName="statusLabel" Property="Content" Value="正常" />
+                                                <Setter TargetName="statusLabel" Property="Foreground" Value="#1890ff" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="创建时间">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CreateTime, Converter={StaticResource DateTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="操作">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button
+                                                Padding="5"
+                                                Content="修改"
+                                                Foreground="#1890ff"
+                                                Style="{StaticResource MaterialDesignFlatLightButton}" />
+                                            <Button
+                                                Padding="5"
+                                                Content="新增"
+                                                Foreground="#1a7f29"
+                                                Style="{StaticResource MaterialDesignFlatLightButton}" />
+                                            <Button
+                                                Padding="5"
+                                                Content="删除"
+                                                Foreground="#cf3539"
+                                                Style="{StaticResource MaterialDesignFlatLightButton}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </materialDesign:TreeListView.View>
+            </materialDesign:TreeListView>
+        </Grid>
+    </Border>
 </UserControl>
+
