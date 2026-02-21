@@ -11,69 +11,40 @@ using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
 {
-    public class UserListViewModel : PageBindableBase
+    public class UserListViewModel : PageBindableBase<SysUser,QueryUserInput>
     {
         public ObservableCollection<SysDept> DeptItems { get; set; } = new();
-        public ObservableCollection<SysUser> UserItems { get; set; } = new();
-        private QueryUserInput _queryUserInput;
-        public QueryUserInput QueryUserInput
-        {
-            get { return _queryUserInput;  }
-            set { SetProperty(ref _queryUserInput, value); }
-        }
         private readonly ISysDeptService _deptService;
         private readonly ISysUserService _userService;
         public ICommand DeptSelectionCommand { get; }
-        public ICommand SearchButtonCommand { get; }
-        public ICommand PrevButtonCommand { get; }
-        public ICommand NextButtonCommand { get; }
+        public ICommand DeptQueryCommand { get; }
         public UserListViewModel(ISysDeptService deptService, ISysUserService userService)
         {
             _deptService = deptService;
             _userService = userService;
-            QueryUserInput = new QueryUserInput() { 
-                PageSize = 10,
-                PageNumber = 1
-            };
-            DeptSelectionCommand = new DelegateCommand<SysDept>(obj =>
+            RegisterQueryFunc(input =>
             {
-
-            });
-            SearchButtonCommand = new DelegateCommand(() =>
+                return _userService.SelectUserList(input);
+            },new QueryUserInput() { PageNumber=1,PageSize=10 });
+            DeptSelectionCommand = new DelegateCommand(() =>
             {
-                QueryUserInput.PageNumber = 1;
-                SearchUser(QueryUserInput);
+               
             });
-            PrevButtonCommand = new DelegateCommand(() =>
+            DeptQueryCommand = new DelegateCommand(() =>
             {
-                QueryUserInput.PageNumber--;
-                SearchUser(QueryUserInput);
+                SearchDept();
             });
-            NextButtonCommand = new DelegateCommand(() =>
-            {
-                QueryUserInput.PageNumber++;
-                SearchUser(QueryUserInput);
-            });
-            SearchDept(QueryUserInput);
-            SearchUser(QueryUserInput);
+            DeptQueryCommand.Execute(this);
+            SearchButtonCommand.Execute(this);
         }
-        private void SearchUser(QueryUserInput queryUserInput)
-        {
-            UserItems.Clear();
-            var _list = _userService.SelectUserList(queryUserInput);
-            UserItems.AddRange(_list);
-            Count = queryUserInput.Count;
-            PageNumber = queryUserInput.PageNumber;
-            PageSize = queryUserInput.PageSize;
-        }
-        private void SearchDept(QueryUserInput queryUserInput)
+        private void SearchDept()
         {
             DeptItems.Clear();
-            var _list = _deptService.SelectDeptList(new SysDept()
+            var data = _deptService.SelectDeptList(new SysDept()
             {
-                DeptName = queryUserInput.DeptName,
+                DeptName = QueryPageInfo.DeptName
             });
-            DeptItems.AddRange(_list);
+            DeptItems.AddRange(data);
         }
     }
 }

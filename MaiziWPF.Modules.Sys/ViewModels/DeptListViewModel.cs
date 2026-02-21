@@ -8,17 +8,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
 {
-    public class DeptListViewModel : PageBindableBase
+    public class DeptListViewModel : BindableBase
     {
         public ObservableCollection<SysDept> DeptItems { get; set; } = new();
         private string _deptName;
         public string DeptName { get => _deptName; set => SetProperty(ref _deptName, value); }
         private string _status;
         public string Status { get => _status; set => SetProperty(ref _status, value); }
-
+        public ICommand SearchButtonCommand { get; }
         private readonly ISysDeptService _deptService;
 
         public DeptListViewModel(ISysDeptService deptService)
@@ -28,7 +29,7 @@ namespace MaiziWPF.Modules.Sys
             {
                 SearchDept();
             });
-            SearchDept();
+            SearchButtonCommand.Execute(this);
         }
         private void SearchDept()
         {

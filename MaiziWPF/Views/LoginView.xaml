@@ -122,12 +122,13 @@
                         BorderThickness="0,0,0,1.5"
                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
                     <Button
-                        materialDesign:ButtonAssist.CornerRadius="10"
+                        materialDesign:ButtonAssist.CornerRadius="6"
                         Background="#05b790"
                         Command="{Binding LoginCommand}"
                         Content="Login in"
                         FontSize="18"
-                        Foreground="#ffffff" />
+                        Foreground="#ffffff"
+                        Style="{StaticResource MaterialDesignFlatLightBgButton}" />
                 </StackPanel>
             </Grid>
         </Border>

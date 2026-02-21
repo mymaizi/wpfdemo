@@ -1,16 +1,29 @@
-﻿using Prism.Commands;
+﻿using MaiziWPF.Core;
+using MaiziWPF.Services.Application.Contracts;
+using MaiziWPF.Services.Domain;
+using MaiziWPF.Services.Domain.Shared;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Drawing.Printing;
 using System.Linq;
+using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
 {
-    public class PostListViewModel : BindableBase
+    public class PostListViewModel : PageBindableBase<SysPost,QueryPostInput>
     {
-        public PostListViewModel()
+        private readonly ISysPostService _postService;
+        public PostListViewModel(ISysPostService postService)
         {
-
+            _postService = postService;
+            RegisterQueryFunc(input =>
+            {
+                return _postService.SelectPostList(input);
+            }, new QueryPostInput() { PageNumber = 1, PageSize = 10 });
+            SearchButtonCommand.Execute(this);
         }
     }
 }

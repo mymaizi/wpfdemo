@@ -9,17 +9,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
 {
-    public class MenuListViewModel : PageBindableBase
+    public class MenuListViewModel : BindableBase
     {
         public ObservableCollection<SysMenu> MenuItems { get; set; } = new();
         private string _menuName;
         public string MenuName { get => _menuName; set => SetProperty(ref _menuName, value); }
         private string _status;
         public string Status { get => _status; set => SetProperty(ref _status, value); }
-
+        public ICommand SearchButtonCommand { get; }
         private readonly ISysMenuService _menuService;
 
         public MenuListViewModel(ISysMenuService menuService)
@@ -29,7 +30,7 @@ namespace MaiziWPF.Modules.Sys
             {
                 SearchMenu();
             });
-            SearchMenu();
+            SearchButtonCommand.Execute(this);
         }
         private void SearchMenu()
         {

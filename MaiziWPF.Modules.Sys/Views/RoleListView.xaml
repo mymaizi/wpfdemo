@@ -27,7 +27,7 @@
                         materialDesign:TextFieldAssist.HasClearButton="True"
                         BorderThickness="0"
                         FontSize="16"
-                        Text="{Binding QueryRoleInput.RoleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding QueryPageInfo.RoleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </materialDesign:Card>
                 <materialDesign:Card Width="200" Style="{StaticResource FormCardStyle}">
                     <TextBox
@@ -36,7 +36,7 @@
                         materialDesign:TextFieldAssist.HasClearButton="True"
                         BorderThickness="0"
                         FontSize="16"
-                        Text="{Binding QueryRoleInput.RoleKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding QueryPageInfo.RoleKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </materialDesign:Card>
                 <materialDesign:Card Width="200" Style="{StaticResource FormCardStyle}">
                     <ComboBox
@@ -46,7 +46,7 @@
                         materialDesign:TextFieldAssist.HasClearButton="True"
                         BorderThickness="0"
                         FontSize="16"
-                        SelectedItem="{Binding QueryRoleInput.Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        SelectedItem="{Binding QueryPageInfo.Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type domain:SysDictData}">
                                 <StackPanel Orientation="Horizontal">
@@ -57,7 +57,7 @@
                     </ComboBox>
                 </materialDesign:Card>
                 <materialDesign:Card Width="280" Style="{StaticResource FormCardStyle}">
-                    <maiziWPF:DateRangeControl EndDateTime="{Binding QueryRoleInput.StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" StartDateTime="{Binding QueryRoleInput.EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <maiziWPF:DateRangeControl EndDateTime="{Binding QueryPageInfo.StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" StartDateTime="{Binding QueryPageInfo.EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </materialDesign:Card>
                 <StackPanel Margin="6,0,0,6" Orientation="Horizontal">
                     <Button
@@ -81,7 +81,7 @@
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 GridLinesVisibility="None"
-                ItemsSource="{Binding RoleItems}">
+                ItemsSource="{Binding DataList}">
                 <DataGrid.CellStyle>
                     <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="DataGridCell">
                         <Setter Property="VerticalAlignment" Value="Center" />

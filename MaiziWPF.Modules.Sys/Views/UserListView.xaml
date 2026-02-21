@@ -24,7 +24,7 @@
                 <StackPanel Margin="10,10,6,6">
                     <materialDesign:Card Padding="8,4,8,4">
                         <DockPanel>
-                            <Button Style="{StaticResource MaterialDesignToolButton}">
+                            <Button Command="{Binding DeptQueryCommand}" Style="{StaticResource MaterialDesignToolButton}">
                                 <materialDesign:PackIcon Kind="Search" Opacity=".56" />
                             </Button>
                             <TextBox
@@ -33,7 +33,7 @@
                                 materialDesign:TextFieldAssist.HasClearButton="True"
                                 BorderThickness="0"
                                 FontSize="16"
-                                Text="{Binding QueryUserInput.DeptName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding QueryPageInfo.DeptName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
                     </materialDesign:Card>
                     <materialDesign:TreeListView ItemsSource="{Binding DeptItems}">
@@ -82,7 +82,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             BorderThickness="0"
                             FontSize="16"
-                            Text="{Binding QueryUserInput.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding QueryPageInfo.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </materialDesign:Card>
                     <materialDesign:Card Width="200" Style="{StaticResource FormCardStyle}">
                         <TextBox
@@ -91,7 +91,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             BorderThickness="0"
                             FontSize="16"
-                            Text="{Binding QueryUserInput.Phonenumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding QueryPageInfo.Phonenumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </materialDesign:Card>
                     <materialDesign:Card Width="200" Style="{StaticResource FormCardStyle}">
                         <ComboBox
@@ -101,7 +101,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             BorderThickness="0"
                             FontSize="16"
-                            SelectedItem="{Binding QueryUserInput.Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            SelectedItem="{Binding QueryPageInfo.Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type domain:SysDictData}">
                                     <StackPanel Orientation="Horizontal">
@@ -112,7 +112,7 @@
                         </ComboBox>
                     </materialDesign:Card>
                     <materialDesign:Card Width="280" Style="{StaticResource FormCardStyle}">
-                        <maiziWPF:DateRangeControl EndDateTime="{Binding QueryUserInput.StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" StartDateTime="{Binding QueryUserInput.EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <maiziWPF:DateRangeControl EndDateTime="{Binding QueryPageInfo.StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" StartDateTime="{Binding QueryPageInfo.EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </materialDesign:Card>
                     <StackPanel Margin="6,0,0,6" Orientation="Horizontal">
                         <Button
@@ -136,7 +136,7 @@
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
                     GridLinesVisibility="None"
-                    ItemsSource="{Binding UserItems}">
+                    ItemsSource="{Binding DataList}">
                     <DataGrid.CellStyle>
                         <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="DataGridCell">
                             <Setter Property="VerticalAlignment" Value="Center" />
