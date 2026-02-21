@@ -28,7 +28,7 @@ namespace MaiziWPF.Services.MySql
             if (input.StartDate.HasValue && input.EndDate.HasValue)
                 where = where.And(u => u.CreateTime.Between(input.StartDate.Value, input.EndDate.Value));
 
-            return _fsql.Select<SysConfig>().Where(where).ToList();
+            return _fsql.Select<SysConfig>().Where(where).Page(input).ToList();
         }
     }
 }

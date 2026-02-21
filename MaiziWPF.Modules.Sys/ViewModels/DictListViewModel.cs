@@ -3,6 +3,8 @@ using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using MaiziWPF.Services.Domain.Shared;
 using Prism.Commands;
+using Prism.Dialogs;
+using Prism.Ioc;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ namespace MaiziWPF.Modules.Sys
     public class DictListViewModel : PageBindableBase<SysDictType, QueryDictTypeInput>
     {
         private readonly ISysDictService _dictService;
-        public DictListViewModel(ISysDictService dictService)
+        public DictListViewModel(ISysDictService dictService, IDialogService dialogService) : base(dialogService)
         {
             _dictService = dictService;
             RegisterQueryFunc(input =>

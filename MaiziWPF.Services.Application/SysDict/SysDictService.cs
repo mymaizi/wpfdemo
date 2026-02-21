@@ -9,9 +9,9 @@ namespace MaiziWPF.Services.Application
 {
     public class SysDictService : ISysDictService
     {
-        private readonly ISysDictTypeRepository _repository;
+        private readonly ISysDictRepository _repository;
 
-        public SysDictService(ISysDictTypeRepository repository)
+        public SysDictService(ISysDictRepository repository)
         {
             _repository = repository;
         }

@@ -1,11 +1,15 @@
 ﻿using FreeSql.Internal.Model;
 using MaiziWPF.Services.Domain.Shared;
+using MaterialDesignThemes.Wpf;
 using Prism.Commands;
+using Prism.Dialogs;
+using Prism.Ioc;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MaiziWPF.Core
@@ -26,11 +30,19 @@ namespace MaiziWPF.Core
         public ICommand SearchButtonCommand { get; set; }
         public ICommand PrevButtonCommand { get; set; }
         public ICommand NextButtonCommand { get; set; }
-
-        public PageBindableBase()
+        public ICommand AddOrEditButtonCommand { get; set; }
+        private readonly IDialogService _dialogService;
+        public PageBindableBase(IDialogService dialogService)
         {
+            _dialogService = dialogService;
         }
-
+        public void RegisterDialogFunc(string viewName)
+        {
+            AddOrEditButtonCommand = new DelegateCommand(() =>
+            {
+                _dialogService.ShowDialog(viewName);
+            });
+        }
         /// <summary>
         /// 注册查询函数
         /// </summary>

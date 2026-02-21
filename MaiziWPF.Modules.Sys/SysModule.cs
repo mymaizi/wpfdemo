@@ -28,6 +28,7 @@ namespace MaiziWPF.Modules.Sys
             containerRegistry.RegisterForNavigation<PostListView>();
             containerRegistry.RegisterForNavigation<DictListView>();
             containerRegistry.RegisterForNavigation<ConfigListView>();
+            containerRegistry.RegisterDialog<UserFormView>();
         }
     }
 }

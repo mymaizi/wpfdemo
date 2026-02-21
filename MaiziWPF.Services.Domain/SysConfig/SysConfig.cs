@@ -5,6 +5,7 @@ using System.Text;
 
 namespace MaiziWPF.Services.Domain
 {
+    [Table(Name = "sys_config")]
     public class SysConfig:BaseEntity
     {
         /** 参数主键 */

@@ -11,6 +11,7 @@ namespace MaiziWPF.Services.Domain
     /// </summary>
 
     [Index("uk_dictType", "DictType", true)]
+    [Table(Name = "sys_dict_type")]
     public class SysDictType: BaseEntity
     {
         /** 字典编码 */

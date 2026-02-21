@@ -3,6 +3,8 @@ using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using MaiziWPF.Services.Domain.Shared;
 using Prism.Commands;
+using Prism.Dialogs;
+using Prism.Ioc;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,7 @@ namespace MaiziWPF.Modules.Sys
     public class PostListViewModel : PageBindableBase<SysPost,QueryPostInput>
     {
         private readonly ISysPostService _postService;
-        public PostListViewModel(ISysPostService postService)
+        public PostListViewModel(ISysPostService postService, IDialogService dialogService) : base(dialogService)
         {
             _postService = postService;
             RegisterQueryFunc(input =>

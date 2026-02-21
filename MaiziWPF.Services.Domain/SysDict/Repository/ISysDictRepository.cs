@@ -7,7 +7,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace MaiziWPF.Services.Domain
 {
-    public interface ISysDictTypeRepository : IBaseRepository<SysDictType, int>, ITransientDependency
+    public interface ISysDictRepository : IBaseRepository<SysDictType, int>, ITransientDependency
     {
         /**
          * 根据字典类型查询字典数据

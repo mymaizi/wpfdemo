@@ -2,11 +2,17 @@
 using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using MaiziWPF.Services.Domain.Shared;
+using MaterialDesignThemes.Wpf;
 using Prism.Commands;
+using Prism.Dialogs;
+using Prism.Ioc;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
@@ -18,17 +24,18 @@ namespace MaiziWPF.Modules.Sys
         private readonly ISysUserService _userService;
         public ICommand DeptSelectionCommand { get; }
         public ICommand DeptQueryCommand { get; }
-        public UserListViewModel(ISysDeptService deptService, ISysUserService userService)
+       
+        public UserListViewModel(ISysDeptService deptService, ISysUserService userService, IDialogService dialogService) :base(dialogService)
         {
             _deptService = deptService;
             _userService = userService;
+            RegisterDialogFunc("UserFormView");
             RegisterQueryFunc(input =>
             {
                 return _userService.SelectUserList(input);
             },new QueryUserInput() { PageNumber=1,PageSize=10 });
             DeptSelectionCommand = new DelegateCommand(() =>
             {
-               
             });
             DeptQueryCommand = new DelegateCommand(() =>
             {

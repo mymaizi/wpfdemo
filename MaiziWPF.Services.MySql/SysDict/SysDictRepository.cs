@@ -4,11 +4,11 @@ using MaiziWPF.Services.Domain.Shared;
 
 namespace MaiziWPF.Services.MySql
 {
-    public class SysDictTypeRepository : BaseRepository<SysDictType, int>, ISysDictTypeRepository
+    public class SysDictRepository : BaseRepository<SysDictType, int>, ISysDictRepository
     {
         private readonly IFreeSql _fsql;
 
-        public SysDictTypeRepository(IFreeSql fsql) : base(fsql)
+        public SysDictRepository(IFreeSql fsql) : base(fsql)
         {
             _fsql = fsql;
         }
@@ -30,7 +30,7 @@ namespace MaiziWPF.Services.MySql
             if (input.StartDate.HasValue && input.EndDate.HasValue)
                 where = where.And(u => u.CreateTime.Between(input.StartDate.Value, input.EndDate.Value));
 
-            return _fsql.Select<SysDictType>().Where(where).ToList();
+            return _fsql.Select<SysDictType>().Where(where).Page(input).ToList();
         }
     }
 }

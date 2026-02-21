@@ -3,6 +3,8 @@ using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using MaiziWPF.Services.Domain.Shared;
 using Prism.Commands;
+using Prism.Dialogs;
+using Prism.Ioc;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,7 @@ namespace MaiziWPF.Modules.Sys
     public class RoleListViewModel : PageBindableBase<SysRole,QueryRoleInput>
     {
         private readonly ISysRoleService _roleService;
-        public RoleListViewModel(ISysRoleService roleService)
+        public RoleListViewModel(ISysRoleService roleService, IDialogService dialogService) : base(dialogService)
         {
             _roleService = roleService;
             RegisterQueryFunc(input =>
