@@ -14,6 +14,6 @@ namespace MaiziWPF.Services.Domain
          * @param dept 部门信息
          * @return 部门信息集合
          */
-        public List<SysDept> SelectDeptList(SysDept dept);
+        public List<SysDept> SelectDeptList(SysDept dept, bool isTreeQuery);
     }
 }

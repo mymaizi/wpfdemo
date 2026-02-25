@@ -15,7 +15,7 @@ namespace MaiziWPF.Modules.Sys
     public class DictListViewModel : PageBindableBase<SysDictType, QueryDictTypeInput>
     {
         private readonly ISysDictService _dictService;
-        public DictListViewModel(ISysDictService dictService, IDialogService dialogService) : base(dialogService)
+        public DictListViewModel(ISysDictService dictService)
         {
             _dictService = dictService;
             RegisterQueryFunc(input =>

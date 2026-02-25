@@ -1,9 +1,189 @@
-﻿<UserControl x:Class="MaiziWPF.Modules.Sys.UserFormView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
-             prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
-            
+﻿<UserControl
+    x:Class="MaiziWPF.Modules.Sys.UserFormView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:domain="clr-namespace:MaiziWPF.Services.Domain;assembly=MaiziWPF.Services.Domain"
+    xmlns:maiziWPF="clr-namespace:MaiziWPF.Core;assembly=MaiziWPF.Core"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Style
+            x:Key="FormText"
+            BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}"
+            TargetType="TextBox">
+            <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Width" Value="150" />
+        </Style>
+        <Style
+            x:Key="FormComboBox"
+            BasedOn="{StaticResource MaterialDesignComboBox}"
+            TargetType="ComboBox">
+            <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Width" Value="150" />
+        </Style>
+    </UserControl.Resources>
+    <Grid Width="350" Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <WrapPanel>
+            <TextBox
+                Margin="10"
+                materialDesign:HintAssist.Hint="请输入用户昵称"
+                Style="{StaticResource FormText}" />
+            <ComboBox
+                maiziWPF:TableAssist.Bind="dept"
+                materialDesign:HintAssist.Hint="请选择部门"
+                materialDesign:TextFieldAssist.HasClearButton="False"
+                IsEditable="True"
+                IsReadOnly="True"
+                Style="{StaticResource FormComboBox}">
+                <ComboBox.Template>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <TextBox
+                                materialDesign:HintAssist.Hint="{TemplateBinding materialDesign:HintAssist.Hint}"
+                                materialDesign:TextFieldAssist.HasClearButton="{TemplateBinding materialDesign:TextFieldAssist.HasClearButton}"
+                                IsReadOnly="{TemplateBinding IsReadOnly}"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                            <ToggleButton
+                                VerticalContentAlignment="Center"
+                                Focusable="false"
+                                Foreground="#FF888787"
+                                IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                Style="{StaticResource MaterialDesignComboBoxToggleButton}" />
+                            <Popup
+                                AllowsTransparency="true"
+                                IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                Placement="Bottom"
+                                PopupAnimation="Fade">
+                                <materialDesign:Card Background="#FFEDEDED">
+                                    <materialDesign:TreeListView ItemsSource="{TemplateBinding ItemsSource}">
+                                        <materialDesign:TreeListView.Resources>
+                                            <HierarchicalDataTemplate DataType="{x:Type maiziWPF:Checked}" ItemsSource="{Binding Childs}">
+                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </HierarchicalDataTemplate>
+                                        </materialDesign:TreeListView.Resources>
+                                        <materialDesign:TreeListView.View>
+                                            <GridView>
+                                                <GridView.ColumnHeaderContainerStyle>
+                                                    <Style TargetType="GridViewColumnHeader">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </Style>
+                                                </GridView.ColumnHeaderContainerStyle>
+                                                <GridView.Columns>
+                                                    <GridViewColumn Width="210">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <ContentPresenter Content="{Binding}" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                </GridView.Columns>
+                                            </GridView>
+                                        </materialDesign:TreeListView.View>
+                                    </materialDesign:TreeListView>
+                                </materialDesign:Card>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </ComboBox.Template>
+            </ComboBox>
+            <TextBox
+                Margin="10"
+                materialDesign:HintAssist.Hint="请输入手机号码"
+                Style="{StaticResource FormText}" />
+            <TextBox
+                Margin="10"
+                materialDesign:HintAssist.Hint="请输入邮箱"
+                Style="{StaticResource FormText}" />
+            <TextBox
+                Margin="10"
+                materialDesign:HintAssist.Hint="请输入用户名称"
+                Style="{StaticResource FormText}" />
+            <TextBox
+                Margin="10"
+                materialDesign:HintAssist.Hint="请输入用户密码"
+                Style="{StaticResource FormText}" />
+            <ComboBox
+                maiziWPF:DataDictAssist.Type="sys_user_sex"
+                materialDesign:HintAssist.Hint="请选择用户状态"
+                Style="{StaticResource FormComboBox}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type domain:SysDictData}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding DictLabel}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton
+                    Margin="16,4,16,0"
+                    Content="正常"
+                    Style="{StaticResource MaterialDesignUserForegroundRadioButton}" />
+                <RadioButton
+                    Margin="16,4,16,0"
+                    Content="停用"
+                    Style="{StaticResource MaterialDesignUserForegroundRadioButton}" />
+            </StackPanel>
+            <ComboBox
+                maiziWPF:TableAssist.Bind="post"
+                materialDesign:HintAssist.Hint="请选择岗位"
+                materialDesign:TextFieldAssist.HasClearButton="False"
+                IsEditable="True"
+                IsReadOnly="True"
+                Style="{StaticResource FormComboBox}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type maiziWPF:Checked}">
+                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox
+                maiziWPF:TableAssist.Bind="role"
+                materialDesign:HintAssist.Hint="请选择角色"
+                materialDesign:TextFieldAssist.HasClearButton="False"
+                IsEditable="True"
+                IsReadOnly="True"
+                Style="{StaticResource FormComboBox}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type maiziWPF:Checked}">
+                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBox
+                Width="330"
+                Height="100"
+                materialDesign:HintAssist.Hint="请输入备注"
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+        </WrapPanel>
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,16,0,0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Command="{Binding AcceptCommand}"
+                IsDefault="True"
+                Style="{StaticResource MaterialDesignFlatButton}">
+                保存
+            </Button>
+            <Button
+                Margin="8,0,0,0"
+                Command="{Binding CancelCommand}"
+                Foreground="#606266"
+                IsCancel="True"
+                Style="{StaticResource MaterialDesignFlatButton}">
+                取消
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

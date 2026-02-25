@@ -16,9 +16,9 @@ namespace MaiziWPF.Services.Application
             _repository = repository;
         }
 
-        public List<SysDept> SelectDeptList(SysDept dept)
+        public List<SysDept> SelectDeptList(SysDept dept, bool isTreeQuery = true)
         {
-           return _repository.SelectDeptList(dept);
+           return _repository.SelectDeptList(dept, isTreeQuery);
         }
     }
 }

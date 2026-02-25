@@ -18,7 +18,7 @@ namespace MaiziWPF.Modules.Sys
     public class PostListViewModel : PageBindableBase<SysPost,QueryPostInput>
     {
         private readonly ISysPostService _postService;
-        public PostListViewModel(ISysPostService postService, IDialogService dialogService) : base(dialogService)
+        public PostListViewModel(ISysPostService postService)
         {
             _postService = postService;
             RegisterQueryFunc(input =>

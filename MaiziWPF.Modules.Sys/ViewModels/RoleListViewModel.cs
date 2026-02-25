@@ -18,7 +18,7 @@ namespace MaiziWPF.Modules.Sys
     public class RoleListViewModel : PageBindableBase<SysRole,QueryRoleInput>
     {
         private readonly ISysRoleService _roleService;
-        public RoleListViewModel(ISysRoleService roleService, IDialogService dialogService) : base(dialogService)
+        public RoleListViewModel(ISysRoleService roleService)
         {
             _roleService = roleService;
             RegisterQueryFunc(input =>

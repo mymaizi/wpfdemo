@@ -1,5 +1,7 @@
 ﻿using MaiziWPF.Core;
+using MaiziWPF.Core.Services;
 using MaiziWPF.Modules.Sys;
+using MaiziWPF.Services;
 using MaiziWPF.Views;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +31,7 @@ namespace MaiziWPF
         {
             containerRegistry.RegisterForNavigation<LoginView>();
             containerRegistry.RegisterForNavigation<MainView>();
+            containerRegistry.RegisterSingleton<IDialogHostService, DialogHostService>();
         }
         protected override void InitializeShell(Window shell)
         {

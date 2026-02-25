@@ -26,21 +26,20 @@ namespace MaiziWPF.Core
         public long Count { get => _count; set => SetProperty(ref _count, value); }
         private ObservableCollection<T> _dataList=new();
         public ObservableCollection<T> DataList { get => _dataList; set => SetProperty(ref _dataList, value); }
-    
+        private T _entity;
+        public T Entity { get => _entity; set => SetProperty(ref _entity, value); }
         public ICommand SearchButtonCommand { get; set; }
         public ICommand PrevButtonCommand { get; set; }
         public ICommand NextButtonCommand { get; set; }
         public ICommand AddOrEditButtonCommand { get; set; }
-        private readonly IDialogService _dialogService;
-        public PageBindableBase(IDialogService dialogService)
+        public PageBindableBase()
         {
-            _dialogService = dialogService;
         }
-        public void RegisterDialogFunc(string viewName)
+        public void RegisterFormDialogFunc(Action<T> action)
         {
             AddOrEditButtonCommand = new DelegateCommand(() =>
             {
-                _dialogService.ShowDialog(viewName);
+                action.Invoke(Entity);
             });
         }
         /// <summary>

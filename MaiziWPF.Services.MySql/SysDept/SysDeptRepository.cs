@@ -12,7 +12,7 @@ namespace MaiziWPF.Services.MySql
             _fsql = fsql;
         }
 
-        public List<SysDept> SelectDeptList(SysDept dept)
+        public List<SysDept> SelectDeptList(SysDept dept,bool isTreeQuery=true)
         {
             System.Linq.Expressions.Expression<Func<SysDept, bool>> where = d => d.DelFlag == "0";
             if (dept.Id != 0)
@@ -23,7 +23,8 @@ namespace MaiziWPF.Services.MySql
                 where = where.And(d => d.DeptName == dept.DeptName);
             if (!string.IsNullOrEmpty(dept.Status))
                 where = where.And(d => d.Status == dept.Status);
-            return _fsql.Select<SysDept>().Where(where).OrderBy(a => new { a.ParentId, a.OrderNum }).ToTreeList();
+             var query= _fsql.Select<SysDept>().Where(where).OrderBy(a => new { a.ParentId, a.OrderNum });
+            return isTreeQuery ? query.ToTreeList() : query.ToList();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MaiziWPF.Core;
+using MaiziWPF.Core.Services;
 using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using MaiziWPF.Services.Domain.Shared;
@@ -24,18 +25,30 @@ namespace MaiziWPF.Modules.Sys
         private readonly ISysUserService _userService;
         public ICommand DeptSelectionCommand { get; }
         public ICommand DeptQueryCommand { get; }
-       
-        public UserListViewModel(ISysDeptService deptService, ISysUserService userService, IDialogService dialogService) :base(dialogService)
+        private readonly IContainerProvider _containerProvider;
+        private readonly IDialogHostService _dialogHostService;
+
+        public UserListViewModel(ISysDeptService deptService, ISysUserService userService,IContainerProvider containerProvider, IDialogHostService dialogHostService)
         {
             _deptService = deptService;
             _userService = userService;
-            RegisterDialogFunc("UserFormView");
+            _containerProvider = containerProvider;
+            _dialogHostService = dialogHostService;
+            RegisterFormDialogFunc(obj =>
+            {
+                var view = _containerProvider.Resolve<UserFormView>();
+                var model = _containerProvider.Resolve<UserFormViewModel>();
+                model.FormUser = obj;
+                view.DataContext= model;
+                _dialogHostService.ShowDialogAsync(view);
+            });
             RegisterQueryFunc(input =>
             {
                 return _userService.SelectUserList(input);
             },new QueryUserInput() { PageNumber=1,PageSize=10 });
             DeptSelectionCommand = new DelegateCommand(() =>
             {
+              
             });
             DeptQueryCommand = new DelegateCommand(() =>
             {

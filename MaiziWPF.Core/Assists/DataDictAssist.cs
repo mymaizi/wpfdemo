@@ -29,8 +29,8 @@ namespace MaiziWPF.Core
             var container = ContainerLocator.Container;
             if (container != null)
             {
-                var sysDictService = container.Resolve<ISysDictService>();
-                dictDatas= sysDictService.SelectDictDataByType((string)e.NewValue);
+                var dictService = container.Resolve<ISysDictService>();
+                dictDatas= dictService.SelectDictDataByType((string)e.NewValue);
             }
             if (d is ComboBox cb)
             {

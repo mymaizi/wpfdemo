@@ -1,30 +1,37 @@
-﻿using Prism.Commands;
+﻿using MaiziWPF.Core.Services;
+using MaiziWPF.Services.Domain;
+using Prism.Commands;
 using Prism.Dialogs;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
 {
-    public class UserFormViewModel : BindableBase, IDialogAware
+    public class UserFormViewModel : BindableBase
     {
-        public DialogCloseListener RequestClose{ get; }
-        public UserFormViewModel()
+        private SysUser  _formUser;
+        public SysUser FormUser
         {
+            get { return _formUser; }
+            set { SetProperty(ref _formUser, value); }
         }
-    
-        public bool CanCloseDialog()
+        public ICommand AcceptCommand { get; }
+        public ICommand CancelCommand { get; }
+        private readonly IDialogHostService _dialogHostService;
+        public UserFormViewModel(IDialogHostService dialogHostService)
         {
-            return true;
-        }
+            _dialogHostService = dialogHostService;
+            AcceptCommand = new DelegateCommand(() =>
+            {
 
-        public void OnDialogClosed()
-        {
-        }
-
-        public void OnDialogOpened(IDialogParameters parameters)
-        {
+            });
+            CancelCommand = new DelegateCommand(() =>
+            {
+                dialogHostService.CloseDialogAsync();
+            });
         }
     }
 }

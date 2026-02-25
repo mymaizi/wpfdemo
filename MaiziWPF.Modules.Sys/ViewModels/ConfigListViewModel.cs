@@ -16,7 +16,7 @@ namespace MaiziWPF.Modules.Sys
     public class ConfigListViewModel : PageBindableBase<SysConfig, QueryConfigInput>
     {
         private readonly ISysConfigService _configService;
-        public ConfigListViewModel(ISysConfigService configService, IDialogService dialogService) :base(dialogService)
+        public ConfigListViewModel(ISysConfigService configService)
         {
             _configService = configService;
             RegisterQueryFunc(input =>
