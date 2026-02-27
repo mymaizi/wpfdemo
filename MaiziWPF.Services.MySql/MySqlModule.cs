@@ -1,8 +1,9 @@
-﻿using MaiziWPF.Services.Domain;
+﻿using FreeSql;
+using MaiziWPF.Services.Domain;
+using MaiziWPF.Services.Domain.Shared;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Modularity;
-using Volo.Abp.Studio;
 
 namespace MaiziWPF.Services.MySql
 {
@@ -13,20 +14,21 @@ namespace MaiziWPF.Services.MySql
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddSingleton<IFreeSql>(r =>
-            {
-                IFreeSql fsql = new FreeSql.FreeSqlBuilder()
-                    .UseConnectionString(FreeSql.DataType.MySql, "Data Source=127.0.0.1;Port=3306;User ID=root;Password=; Initial Catalog=maiziwpf;Charset=utf8mb4; SslMode=none;Min pool size=1")
-                    .UseMonitorCommand(cmd =>
-                    {
-                        var logger = r.GetRequiredService<ILogger<MySqlModule>>();
-                        logger.LogInformation(cmd.CommandText);
-                    })
-                    .UseAutoSyncStructure(true)
-                    .Build();
-                return fsql;
-            });
+            IFreeSql fsql = new FreeSql.FreeSqlBuilder()
+                  .UseConnectionString(FreeSql.DataType.MySql, "Data Source=127.0.0.1;Port=3306;User ID=root;Password=; Initial Catalog=maiziwpf;Charset=utf8mb4; SslMode=none;Min pool size=1")
+                  .UseMonitorCommand(cmd =>
+                  {
+                      var logger = context.Services.GetRequiredService<ILogger<MySqlModule>>();
+                      logger.LogInformation(cmd.CommandText);
+                  })
+                  .UseAutoSyncStructure(true)
+                  .Build();
+         
+            context.Services.AddSingleton<IFreeSql>(fsql);
             context.Services.AddFreeRepository();
+            context.Services.AddScoped<IFreeSql>(r => r.GetService<UnitOfWorkManager>().Orm);
+            context.Services.AddScoped<UnitOfWorkManager>(r => new UnitOfWorkManager(fsql));
+            TransactionalAttribute.SetServiceProvider(context.Services.BuildServiceProvider());
         }
     }
 }

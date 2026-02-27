@@ -107,20 +107,16 @@
 
                 <StackPanel Margin="75,0" VerticalAlignment="Center">
                     <TextBox
-                        materialDesign:HintAssist.FloatingOffset="0,-20"
                         materialDesign:HintAssist.Hint="Username"
-                        BorderBrush="#c5c8cc"
-                        BorderThickness="0,0,0,1.5"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                         Text="{Binding UserName}" />
                     <PasswordBox
                         Margin="0,27"
-                        maiziWPF:PasswordBoxAssist.Password="{Binding Password, Mode=TwoWay}"
-                        materialDesign:HintAssist.FloatingOffset="0,-20"
                         materialDesign:HintAssist.Hint="Password"
-                        BorderBrush="#c5c8cc"
-                        BorderThickness="0,0,0,1.5"
-                        Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+                        materialDesign:PasswordBoxAssist.Password="{Binding Password, Mode=TwoWay}"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}" />
                     <Button
                         materialDesign:ButtonAssist.CornerRadius="6"
                         Background="#05b790"

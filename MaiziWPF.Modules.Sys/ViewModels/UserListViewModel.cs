@@ -34,11 +34,10 @@ namespace MaiziWPF.Modules.Sys
             _userService = userService;
             _containerProvider = containerProvider;
             _dialogHostService = dialogHostService;
-            RegisterFormDialogFunc(obj =>
+            this.AddOrEditButtonCommand = new DelegateCommand(() =>
             {
                 var view = _containerProvider.Resolve<UserFormView>();
                 var model = _containerProvider.Resolve<UserFormViewModel>();
-                model.FormUser = obj;
                 view.DataContext= model;
                 _dialogHostService.ShowDialogAsync(view);
             });

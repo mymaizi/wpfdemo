@@ -35,13 +35,6 @@ namespace MaiziWPF.Core
         public PageBindableBase()
         {
         }
-        public void RegisterFormDialogFunc(Action<T> action)
-        {
-            AddOrEditButtonCommand = new DelegateCommand(() =>
-            {
-                action.Invoke(Entity);
-            });
-        }
         /// <summary>
         /// 注册查询函数
         /// </summary>

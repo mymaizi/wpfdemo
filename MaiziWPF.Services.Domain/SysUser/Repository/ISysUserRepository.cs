@@ -20,5 +20,34 @@ namespace MaiziWPF.Services.Domain
          * @return 用户信息集合信息
          */
         public List<SysUser> SelectUserList(QueryUserInput input);
+        /**
+       * 新增用户信息
+       * 
+       * @param user 用户信息
+       * @return 结果
+       */
+        public long InsertUser(SysUser user);
+        /**
+        * 批量新增用户岗位信息
+        * 
+        * @param userPostList 用户岗位列表
+        * @return 结果
+        */
+        public int BatchUserPost(List<SysUserPost> userPostList);
+        /**
+        * 批量新增用户角色信息
+        * 
+        * @param userRoleList 用户角色列表
+        * @return 结果
+        */
+        public int BatchUserRole(List<SysUserRole> userRoleList);
+        /**
+           * 批量新增用户部门信息
+           * 
+           * @param userDeptList 用户角色列表
+           * @return 结果
+           */
+        public int BatchUserDept(List<SysUserDept> userDeptList);
+
     }
 }

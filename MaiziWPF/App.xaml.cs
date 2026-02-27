@@ -1,4 +1,6 @@
-﻿using MaiziWPF.Core;
+﻿using Example;
+using FreeSql;
+using MaiziWPF.Core;
 using MaiziWPF.Core.Services;
 using MaiziWPF.Modules.Sys;
 using MaiziWPF.Services;

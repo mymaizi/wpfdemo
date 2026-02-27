@@ -8,9 +8,10 @@
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
+        <maiziWPF:BooleanConverter x:Key="BooleanConverter" />
         <Style
-            x:Key="FormText"
-            BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}"
+            x:Key="FormTextBox"
+            BasedOn="{StaticResource MaterialDesignTextBox}"
             TargetType="TextBox">
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True" />
             <Setter Property="Margin" Value="10" />
@@ -32,11 +33,12 @@
         </Grid.RowDefinitions>
         <WrapPanel>
             <TextBox
-                Margin="10"
                 materialDesign:HintAssist.Hint="请输入用户昵称"
-                Style="{StaticResource FormText}" />
+                Style="{StaticResource FormTextBox}"
+                Text="{Binding NickName}" />
             <ComboBox
-                maiziWPF:TableAssist.Bind="dept"
+                maiziWPF:DbAssist.Bind="dept"
+                maiziWPF:DbAssist.BindField="{Binding Depts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="请选择部门"
                 materialDesign:TextFieldAssist.HasClearButton="False"
                 IsEditable="True"
@@ -46,14 +48,14 @@
                     <ControlTemplate TargetType="{x:Type ComboBox}">
                         <Grid>
                             <TextBox
+                                x:Name="PART_TEXT"
                                 materialDesign:HintAssist.Hint="{TemplateBinding materialDesign:HintAssist.Hint}"
                                 materialDesign:TextFieldAssist.HasClearButton="{TemplateBinding materialDesign:TextFieldAssist.HasClearButton}"
-                                IsReadOnly="{TemplateBinding IsReadOnly}"
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                IsReadOnly="{TemplateBinding IsReadOnly}" />
                             <ToggleButton
                                 VerticalContentAlignment="Center"
                                 Focusable="false"
-                                Foreground="#FF888787"
+                                Foreground="#FF6F6F6F"
                                 IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 Style="{StaticResource MaterialDesignComboBoxToggleButton}" />
                             <Popup
@@ -94,24 +96,25 @@
                 </ComboBox.Template>
             </ComboBox>
             <TextBox
-                Margin="10"
                 materialDesign:HintAssist.Hint="请输入手机号码"
-                Style="{StaticResource FormText}" />
+                Style="{StaticResource FormTextBox}"
+                Text="{Binding PhoneNumber}" />
             <TextBox
-                Margin="10"
                 materialDesign:HintAssist.Hint="请输入邮箱"
-                Style="{StaticResource FormText}" />
+                Style="{StaticResource FormTextBox}"
+                Text="{Binding Email}" />
             <TextBox
-                Margin="10"
                 materialDesign:HintAssist.Hint="请输入用户名称"
-                Style="{StaticResource FormText}" />
+                Style="{StaticResource FormTextBox}"
+                Text="{Binding UserName}" />
             <TextBox
-                Margin="10"
                 materialDesign:HintAssist.Hint="请输入用户密码"
-                Style="{StaticResource FormText}" />
+                Style="{StaticResource FormTextBox}"
+                Text="{Binding Password}" />
             <ComboBox
                 maiziWPF:DataDictAssist.Type="sys_user_sex"
                 materialDesign:HintAssist.Hint="请选择用户状态"
+                SelectedItem="{Binding Sex}"
                 Style="{StaticResource FormComboBox}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type domain:SysDictData}">
@@ -121,18 +124,22 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Margin="10" Orientation="Horizontal">
                 <RadioButton
-                    Margin="16,4,16,0"
                     Content="正常"
+                    GroupName="UserStatus"
+                    IsChecked="{Binding Status, Mode=TwoWay, Converter={StaticResource BooleanConverter}, ConverterParameter='0'}"
                     Style="{StaticResource MaterialDesignUserForegroundRadioButton}" />
                 <RadioButton
-                    Margin="16,4,16,0"
+                    Margin="10,0,0,0"
                     Content="停用"
+                    GroupName="UserStatus"
+                    IsChecked="{Binding Status, Mode=TwoWay, Converter={StaticResource BooleanConverter}, ConverterParameter='1'}"
                     Style="{StaticResource MaterialDesignUserForegroundRadioButton}" />
             </StackPanel>
             <ComboBox
-                maiziWPF:TableAssist.Bind="post"
+                maiziWPF:DbAssist.Bind="post"
+                maiziWPF:DbAssist.BindField="{Binding Posts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="请选择岗位"
                 materialDesign:TextFieldAssist.HasClearButton="False"
                 IsEditable="True"
@@ -145,7 +152,8 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <ComboBox
-                maiziWPF:TableAssist.Bind="role"
+                maiziWPF:DbAssist.Bind="role"
+                maiziWPF:DbAssist.BindField="{Binding Roles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="请选择角色"
                 materialDesign:TextFieldAssist.HasClearButton="False"
                 IsEditable="True"
@@ -158,10 +166,11 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <TextBox
-                Width="330"
-                Height="100"
+                Width="320"
+                MaxHeight="100"
                 materialDesign:HintAssist.Hint="请输入备注"
-                AcceptsReturn="True"
+                Style="{StaticResource FormTextBox}"
+                Text="{Binding Remark}"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto" />
         </WrapPanel>

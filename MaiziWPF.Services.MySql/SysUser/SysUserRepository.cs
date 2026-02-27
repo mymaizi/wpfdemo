@@ -14,6 +14,26 @@ namespace MaiziWPF.Services.MySql
             _fsql = fsql;
         }
 
+        public int BatchUserDept(List<SysUserDept> userDeptList)
+        {
+            return _fsql.Insert(userDeptList).ExecuteAffrows();
+        }
+
+        public int BatchUserPost(List<SysUserPost> userPostList)
+        {
+            return _fsql.Insert(userPostList).ExecuteAffrows();
+        }
+
+        public int BatchUserRole(List<SysUserRole> userRoleList)
+        {
+            return _fsql.Insert(userRoleList).ExecuteAffrows();
+        }
+
+        public long InsertUser(SysUser user)
+        {
+            return _fsql.Insert(user).ExecuteIdentity();
+        }
+
         public SysUser SelectUserByUserName(string userName)
         {
                return _fsql.Select<SysUser>()
@@ -32,7 +52,7 @@ namespace MaiziWPF.Services.MySql
             if (!string.IsNullOrEmpty(input.UserName))
                 where = where.And(u => u.UserName.Contains(input.UserName));
             if (!string.IsNullOrEmpty(input.Phonenumber))
-                where = where.And(u => u.Phonenumber.Contains(input.Phonenumber));
+                where = where.And(u => u.PhoneNumber.Contains(input.Phonenumber));
             if (!string.IsNullOrEmpty(input.Status))
                 where = where.And(u => u.Status.Contains(input.Status));
             if (input.StartDate.HasValue && input.EndDate.HasValue)

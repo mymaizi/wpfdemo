@@ -82,7 +82,7 @@ namespace MaiziWPF.ViewModels
                 var tabRegion = _regionManager.Regions[RegionNames.TabRegion];
                 if (!tabRegion.Views.Any(v => v.GetType().Name == m.Component))
                 {
-                    _tabMenu = m;
+                    TabMenu = m;
                     tabRegion.Add(m.Component);
                 }
                 SelectedItem = tabRegion.GetView(m.Component);
@@ -94,7 +94,7 @@ namespace MaiziWPF.ViewModels
             var firstMenu = MenuItems.First();
             if (firstMenu != null)
             {
-                _tabMenu = firstMenu;
+                TabMenu = firstMenu;
                 _regionManager.Regions[RegionNames.TabRegion].Add(firstMenu.Component);
             }
         }

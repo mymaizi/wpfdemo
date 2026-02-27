@@ -112,7 +112,7 @@
                     <DataGridTemplateColumn Header="状态">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ToggleButton IsChecked="{Binding Status, Converter={StaticResource BooleanConverter}}" Style="{StaticResource MaterialDesignSwitchToggleButton}">
+                                <ToggleButton IsChecked="{Binding Status, Converter={StaticResource BooleanConverter}, ConverterParameter='1'}" Style="{StaticResource MaterialDesignSwitchToggleButton}">
                                     <materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
                                         <SolidColorBrush Color="#cf3539" />
                                     </materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>

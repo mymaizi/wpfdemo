@@ -27,7 +27,7 @@ namespace MaiziWPF.Services.Domain
         public String Email { get; set; }
         /** 手机号码 */
         [Column(Name = "phonenumber", DbType = "varchar(11)")]
-        public String Phonenumber { get; set; }
+        public String PhoneNumber { get; set; }
         /** 用户性别 */
         [Column(Name = "sex", DbType = "char(1)")]
         public String Sex { get; set; }

@@ -1,31 +1,47 @@
-﻿using MaiziWPF.Services.Application.Contracts;
+﻿using MaiziWPF.Common;
+using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
+using MaiziWPF.Services.Domain.Shared;
+using Prism.Ioc;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
-using Prism.Ioc;
 using System.Windows.Controls;
-using MaiziWPF.Services.Domain.Shared;
-using System.Linq;
-using MaiziWPF.Common;
 
 namespace MaiziWPF.Core
 {
-    public class TableAssist
+    public class DbAssist
     {
-        public static readonly DependencyProperty TableProperty =
-            DependencyProperty.RegisterAttached("Bind", typeof(String), typeof(TableAssist), new FrameworkPropertyMetadata(OnBindPropertyChanged));
+
+        public static readonly DependencyProperty BindProperty =
+            DependencyProperty.RegisterAttached("Bind", typeof(String), typeof(DbAssist), new FrameworkPropertyMetadata(OnBindPropertyChanged));
 
         public static string GetBind(DependencyObject obj)
         {
-            return (string)obj.GetValue(TableProperty);
+            return (string)obj.GetValue(BindProperty);
         }
 
         public static void SetBind(DependencyObject obj, string value)
         {
-            obj.SetValue(TableProperty, value);
+            obj.SetValue(BindProperty, value);
         }
+
+        public static List<T> GetBindField<T>(DependencyObject obj)
+        {
+            return (List<T>)obj.GetValue(BindFieldProperty);
+        }
+
+        public static void SetBindField<T>(DependencyObject obj, List<T> value)
+        {
+            obj.SetValue(BindFieldProperty, value);
+        }
+
+        public static readonly DependencyProperty BindFieldProperty =
+            DependencyProperty.RegisterAttached("BindField", typeof(object), typeof(DbAssist));
+
         private static void OnBindPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             List<Checked> datas = new();
@@ -51,10 +67,11 @@ namespace MaiziWPF.Core
                         {
                             if (e.PropertyName == nameof(Checked.IsSelected))
                             {
-                                var selected = datas.Where(p => p.IsSelected).Select(p => p.Name).JoinAsString(",");
+                                var selected = datas.Where(p => p.IsSelected);
                                 if (d is ComboBox cb)
                                 {
-                                    cb.Text = selected;
+                                    cb.Text = selected.Select(p => p.Name).JoinAsString(",");
+                                    SetBindField(cb, selected.ToList());
                                 }
                             }
                         };
@@ -63,14 +80,22 @@ namespace MaiziWPF.Core
                 else if ((string)e.NewValue == "dept")
                 {
                     var service = container.Resolve<ISysDeptService>();
-                    var depts = service.SelectDeptList(new SysDept(), false).Select(a => new Checked { IsSelected = false, Name = a.DeptName, Id = a.Id, ParentId = a.ParentId,Childs=new System.Collections.ObjectModel.ObservableCollection<Checked>() }).ToList();
+                    var depts = service.SelectDeptList(new SysDept(), false).Select(a => new Checked { IsSelected = false, Name = a.DeptName, Id = a.Id, ParentId = a.ParentId, Childs = new System.Collections.ObjectModel.ObservableCollection<Checked>() }).ToList();
                     foreach (var item in depts)
                     {
                         item.PropertyChanged += (s, e) =>
                         {
                             if (e.PropertyName == nameof(Checked.IsSelected))
                             {
-
+                                var selected = depts.Where(p => p.IsSelected);
+                                if (d is ComboBox cb)
+                                {
+                                    if (cb.Template.FindName("PART_TEXT", cb) is TextBox textBox)
+                                    {
+                                        textBox.Text = selected.Select(p => p.Name).JoinAsString(","); ;
+                                    }
+                                    SetBindField(cb, selected.ToList());
+                                }
                             }
                         };
                     }

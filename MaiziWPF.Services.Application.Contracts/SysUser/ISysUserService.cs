@@ -23,5 +23,12 @@ namespace MaiziWPF.Services.Application.Contracts
         * @return 用户信息集合信息
         */
         public List<SysUser> SelectUserList(QueryUserInput input);
+        /**
+        * 新增用户信息
+        * 
+        * @param user 用户信息
+        * @return 结果
+        */
+        public long InsertUser(SysUser user);
     }
 }
