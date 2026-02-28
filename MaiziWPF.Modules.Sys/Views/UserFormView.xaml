@@ -26,173 +26,178 @@
             <Setter Property="Width" Value="150" />
         </Style>
     </UserControl.Resources>
-    <Grid Width="350" Margin="16">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <WrapPanel>
-            <TextBox
-                materialDesign:HintAssist.Hint="请输入用户昵称"
-                Style="{StaticResource FormTextBox}"
-                Text="{Binding NickName}" />
-            <ComboBox
-                maiziWPF:DbAssist.Bind="dept"
-                maiziWPF:DbAssist.BindField="{Binding Depts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                materialDesign:HintAssist.Hint="请选择部门"
-                materialDesign:TextFieldAssist.HasClearButton="False"
-                IsEditable="True"
-                IsReadOnly="True"
-                Style="{StaticResource FormComboBox}">
-                <ComboBox.Template>
-                    <ControlTemplate TargetType="{x:Type ComboBox}">
-                        <Grid>
-                            <TextBox
-                                x:Name="PART_TEXT"
-                                materialDesign:HintAssist.Hint="{TemplateBinding materialDesign:HintAssist.Hint}"
-                                materialDesign:TextFieldAssist.HasClearButton="{TemplateBinding materialDesign:TextFieldAssist.HasClearButton}"
-                                IsReadOnly="{TemplateBinding IsReadOnly}" />
-                            <ToggleButton
-                                VerticalContentAlignment="Center"
-                                Focusable="false"
-                                Foreground="#FF6F6F6F"
-                                IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                Style="{StaticResource MaterialDesignComboBoxToggleButton}" />
-                            <Popup
-                                AllowsTransparency="true"
-                                IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                Placement="Bottom"
-                                PopupAnimation="Fade">
-                                <materialDesign:Card Background="#FFEDEDED">
-                                    <materialDesign:TreeListView ItemsSource="{TemplateBinding ItemsSource}">
-                                        <materialDesign:TreeListView.Resources>
-                                            <HierarchicalDataTemplate DataType="{x:Type maiziWPF:Checked}" ItemsSource="{Binding Childs}">
-                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                            </HierarchicalDataTemplate>
-                                        </materialDesign:TreeListView.Resources>
-                                        <materialDesign:TreeListView.View>
-                                            <GridView>
-                                                <GridView.ColumnHeaderContainerStyle>
-                                                    <Style TargetType="GridViewColumnHeader">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                    </Style>
-                                                </GridView.ColumnHeaderContainerStyle>
-                                                <GridView.Columns>
-                                                    <GridViewColumn Width="210">
-                                                        <GridViewColumn.CellTemplate>
-                                                            <DataTemplate>
-                                                                <ContentPresenter Content="{Binding}" />
-                                                            </DataTemplate>
-                                                        </GridViewColumn.CellTemplate>
-                                                    </GridViewColumn>
-                                                </GridView.Columns>
-                                            </GridView>
-                                        </materialDesign:TreeListView.View>
-                                    </materialDesign:TreeListView>
-                                </materialDesign:Card>
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </ComboBox.Template>
-            </ComboBox>
-            <TextBox
-                materialDesign:HintAssist.Hint="请输入手机号码"
-                Style="{StaticResource FormTextBox}"
-                Text="{Binding PhoneNumber}" />
-            <TextBox
-                materialDesign:HintAssist.Hint="请输入邮箱"
-                Style="{StaticResource FormTextBox}"
-                Text="{Binding Email}" />
-            <TextBox
-                materialDesign:HintAssist.Hint="请输入用户名称"
-                Style="{StaticResource FormTextBox}"
-                Text="{Binding UserName}" />
-            <TextBox
-                materialDesign:HintAssist.Hint="请输入用户密码"
-                Style="{StaticResource FormTextBox}"
-                Text="{Binding Password}" />
-            <ComboBox
-                maiziWPF:DataDictAssist.Type="sys_user_sex"
-                materialDesign:HintAssist.Hint="请选择用户状态"
-                SelectedItem="{Binding Sex}"
-                Style="{StaticResource FormComboBox}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type domain:SysDictData}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding DictLabel}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <StackPanel Margin="10" Orientation="Horizontal">
-                <RadioButton
-                    Content="正常"
-                    GroupName="UserStatus"
-                    IsChecked="{Binding Status, Mode=TwoWay, Converter={StaticResource BooleanConverter}, ConverterParameter='0'}"
-                    Style="{StaticResource MaterialDesignUserForegroundRadioButton}" />
-                <RadioButton
-                    Margin="10,0,0,0"
-                    Content="停用"
-                    GroupName="UserStatus"
-                    IsChecked="{Binding Status, Mode=TwoWay, Converter={StaticResource BooleanConverter}, ConverterParameter='1'}"
-                    Style="{StaticResource MaterialDesignUserForegroundRadioButton}" />
+    <materialDesign:DialogHost
+        CloseOnClickAway="False"
+        Identifier="UserDialog"
+        OverlayBackground="Transparent">
+        <Grid Width="350" Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <WrapPanel>
+                <TextBox
+                    materialDesign:HintAssist.Hint="请输入用户昵称"
+                    Style="{StaticResource FormTextBox}"
+                    Text="{Binding NickName}" />
+                <ComboBox
+                    maiziWPF:DbAssist.Bind="dept"
+                    maiziWPF:DbAssist.BindField="{Binding Depts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    materialDesign:HintAssist.Hint="请选择部门"
+                    materialDesign:TextFieldAssist.HasClearButton="False"
+                    IsEditable="True"
+                    IsReadOnly="True"
+                    Style="{StaticResource FormComboBox}">
+                    <ComboBox.Template>
+                        <ControlTemplate TargetType="{x:Type ComboBox}">
+                            <Grid>
+                                <TextBox
+                                    x:Name="PART_TEXT"
+                                    materialDesign:HintAssist.Hint="{TemplateBinding materialDesign:HintAssist.Hint}"
+                                    materialDesign:TextFieldAssist.HasClearButton="{TemplateBinding materialDesign:TextFieldAssist.HasClearButton}"
+                                    IsReadOnly="{TemplateBinding IsReadOnly}" />
+                                <ToggleButton
+                                    VerticalContentAlignment="Center"
+                                    Focusable="false"
+                                    Foreground="#FF6F6F6F"
+                                    IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Style="{StaticResource MaterialDesignComboBoxToggleButton}" />
+                                <Popup
+                                    AllowsTransparency="true"
+                                    IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Placement="Bottom"
+                                    PopupAnimation="Fade">
+                                    <materialDesign:Card Background="#FFEDEDED">
+                                        <materialDesign:TreeListView ItemsSource="{TemplateBinding ItemsSource}">
+                                            <materialDesign:TreeListView.Resources>
+                                                <HierarchicalDataTemplate DataType="{x:Type maiziWPF:Checked}" ItemsSource="{Binding Childs}">
+                                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                </HierarchicalDataTemplate>
+                                            </materialDesign:TreeListView.Resources>
+                                            <materialDesign:TreeListView.View>
+                                                <GridView>
+                                                    <GridView.ColumnHeaderContainerStyle>
+                                                        <Style TargetType="GridViewColumnHeader">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </Style>
+                                                    </GridView.ColumnHeaderContainerStyle>
+                                                    <GridView.Columns>
+                                                        <GridViewColumn Width="210">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <ContentPresenter Content="{Binding}" />
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+                                                    </GridView.Columns>
+                                                </GridView>
+                                            </materialDesign:TreeListView.View>
+                                        </materialDesign:TreeListView>
+                                    </materialDesign:Card>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </ComboBox.Template>
+                </ComboBox>
+                <TextBox
+                    materialDesign:HintAssist.Hint="请输入手机号码"
+                    Style="{StaticResource FormTextBox}"
+                    Text="{Binding PhoneNumber}" />
+                <TextBox
+                    materialDesign:HintAssist.Hint="请输入邮箱"
+                    Style="{StaticResource FormTextBox}"
+                    Text="{Binding Email}" />
+                <TextBox
+                    materialDesign:HintAssist.Hint="请输入用户名称"
+                    Style="{StaticResource FormTextBox}"
+                    Text="{Binding UserName}" />
+                <TextBox
+                    materialDesign:HintAssist.Hint="请输入用户密码"
+                    Style="{StaticResource FormTextBox}"
+                    Text="{Binding Password}" />
+                <ComboBox
+                    maiziWPF:DataDictAssist.Type="sys_user_sex"
+                    materialDesign:HintAssist.Hint="请选择用户状态"
+                    SelectedItem="{Binding Sex}"
+                    Style="{StaticResource FormComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type domain:SysDictData}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding DictLabel}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <RadioButton
+                        Content="正常"
+                        GroupName="UserStatus"
+                        IsChecked="{Binding Status, Mode=TwoWay, Converter={StaticResource BooleanConverter}, ConverterParameter='0'}"
+                        Style="{StaticResource MaterialDesignUserForegroundRadioButton}" />
+                    <RadioButton
+                        Margin="10,0,0,0"
+                        Content="停用"
+                        GroupName="UserStatus"
+                        IsChecked="{Binding Status, Mode=TwoWay, Converter={StaticResource BooleanConverter}, ConverterParameter='1'}"
+                        Style="{StaticResource MaterialDesignUserForegroundRadioButton}" />
+                </StackPanel>
+                <ComboBox
+                    maiziWPF:DbAssist.Bind="post"
+                    maiziWPF:DbAssist.BindField="{Binding Posts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    materialDesign:HintAssist.Hint="请选择岗位"
+                    materialDesign:TextFieldAssist.HasClearButton="False"
+                    IsEditable="True"
+                    IsReadOnly="True"
+                    Style="{StaticResource FormComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type maiziWPF:Checked}">
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox
+                    maiziWPF:DbAssist.Bind="role"
+                    maiziWPF:DbAssist.BindField="{Binding Roles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    materialDesign:HintAssist.Hint="请选择角色"
+                    materialDesign:TextFieldAssist.HasClearButton="False"
+                    IsEditable="True"
+                    IsReadOnly="True"
+                    Style="{StaticResource FormComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type maiziWPF:Checked}">
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBox
+                    Width="320"
+                    MaxHeight="100"
+                    materialDesign:HintAssist.Hint="请输入备注"
+                    Style="{StaticResource FormTextBox}"
+                    Text="{Binding Remark}"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Auto" />
+            </WrapPanel>
+            <StackPanel
+                Grid.Row="1"
+                Margin="0,16,0,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Button
+                    Command="{Binding AcceptCommand}"
+                    IsDefault="True"
+                    Style="{StaticResource MaterialDesignFlatButton}">
+                    保存
+                </Button>
+                <Button
+                    Margin="8,0,0,0"
+                    Command="{Binding CancelCommand}"
+                    Foreground="#606266"
+                    IsCancel="True"
+                    Style="{StaticResource MaterialDesignFlatButton}">
+                    取消
+                </Button>
             </StackPanel>
-            <ComboBox
-                maiziWPF:DbAssist.Bind="post"
-                maiziWPF:DbAssist.BindField="{Binding Posts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                materialDesign:HintAssist.Hint="请选择岗位"
-                materialDesign:TextFieldAssist.HasClearButton="False"
-                IsEditable="True"
-                IsReadOnly="True"
-                Style="{StaticResource FormComboBox}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type maiziWPF:Checked}">
-                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <ComboBox
-                maiziWPF:DbAssist.Bind="role"
-                maiziWPF:DbAssist.BindField="{Binding Roles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                materialDesign:HintAssist.Hint="请选择角色"
-                materialDesign:TextFieldAssist.HasClearButton="False"
-                IsEditable="True"
-                IsReadOnly="True"
-                Style="{StaticResource FormComboBox}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type maiziWPF:Checked}">
-                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <TextBox
-                Width="320"
-                MaxHeight="100"
-                materialDesign:HintAssist.Hint="请输入备注"
-                Style="{StaticResource FormTextBox}"
-                Text="{Binding Remark}"
-                TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto" />
-        </WrapPanel>
-        <StackPanel
-            Grid.Row="1"
-            Margin="0,16,0,0"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal">
-            <Button
-                Command="{Binding AcceptCommand}"
-                IsDefault="True"
-                Style="{StaticResource MaterialDesignFlatButton}">
-                保存
-            </Button>
-            <Button
-                Margin="8,0,0,0"
-                Command="{Binding CancelCommand}"
-                Foreground="#606266"
-                IsCancel="True"
-                Style="{StaticResource MaterialDesignFlatButton}">
-                取消
-            </Button>
-        </StackPanel>
-    </Grid>
+        </Grid>
+    </materialDesign:DialogHost>
 </UserControl>

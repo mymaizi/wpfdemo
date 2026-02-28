@@ -13,7 +13,6 @@
     WindowStartupLocation="CenterScreen"
     WindowStyle="None">
     <materialDesign:DialogHost
-        x:Name="RootDialog"
         CloseOnClickAway="False"
         Identifier="RootDialog"
         OverlayBackground="Transparent">

@@ -39,35 +39,16 @@ namespace MaiziWPF
         {
             base.InitializeShell(shell);
             var regionManager = Container.Resolve<IRegionManager>();
+            var dialog = Container.Resolve<IDialogHostService>();
             regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(LoginView));
-            Application.Current.DispatcherUnhandledException += (sender, e) =>
+            Application.Current.DispatcherUnhandledException += async (sender, e) =>
             {
                 if (e.Exception is UserFriendlyException d)
                 {
-                    AutoCloseDialog(2000); // 2秒后自动关闭对话框
-                    var dialogContent = new TextBlock
-                    {
-                        Text = e.Exception.Message,
-                        Margin = new Thickness(20),
-                        TextWrapping = TextWrapping.WrapWithOverflow,
-                        FontSize = 16
-                    };
-                    DialogHost.Show(dialogContent, "RootDialog");
+                    _ = dialog.AlertAsync(d.Message);
                 }
                 e.Handled = true;
             };
-        }
-
-        private async void AutoCloseDialog(int delayMilliseconds)
-        {
-            await Task.Delay(delayMilliseconds);
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                if (DialogHost.IsDialogOpen("RootDialog"))
-                {
-                    DialogHost.Close("RootDialog");
-                }
-            });
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

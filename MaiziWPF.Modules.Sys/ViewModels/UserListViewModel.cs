@@ -39,7 +39,7 @@ namespace MaiziWPF.Modules.Sys
                 var view = _containerProvider.Resolve<UserFormView>();
                 var model = _containerProvider.Resolve<UserFormViewModel>();
                 view.DataContext= model;
-                _dialogHostService.ShowDialogAsync(view);
+                _dialogHostService.ShowDialogAsync(view, autoClose: false);
             });
             RegisterQueryFunc(input =>
             {

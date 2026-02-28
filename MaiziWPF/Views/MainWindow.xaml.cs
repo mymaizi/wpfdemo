@@ -8,11 +8,9 @@ namespace MaiziWPF.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static DialogHost GlobalDialogInstance { get; private set; }
         public MainWindow()
         {
             InitializeComponent();
-            GlobalDialogInstance = RootDialog; 
         }
     }
 }

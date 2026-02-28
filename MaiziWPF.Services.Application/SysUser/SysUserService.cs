@@ -20,11 +20,11 @@ namespace MaiziWPF.Services.Application
             long userId = _repository.InsertUser(user);
             user.UserId = userId;
             // 新增用户岗位关联
-            InsertUserPost(user);
+            //InsertUserPost(user);
             // 新增用户与角色管理
-            InsertUserRole(user);
+            //InsertUserRole(user);
             // 新增用户与部门管理
-            InsertUserDept(user);
+            //InsertUserDept(user);
             return userId;
         }
         /**

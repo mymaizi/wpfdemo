@@ -84,10 +84,12 @@ namespace MaiziWPF.Modules.Sys
         }
         #endregion
         private readonly ISysUserService _userService;
+        private readonly IDialogHostService _dialogHostService;
         public UserFormViewModel(ISysUserService userService,IDialogHostService dialogHostService) : base(dialogHostService)
         {
             _userService=userService;
-            this.AcceptCommand = new DelegateCommand(() =>
+            _dialogHostService=dialogHostService;
+            this.AcceptCommand = new DelegateCommand(async () =>
             {
                 _userService.InsertUser(new SysUser()
                 {
@@ -99,10 +101,15 @@ namespace MaiziWPF.Modules.Sys
                     Status = this.Status,
                     Sex = this.Sex?.DictValue,
                     Remark = this.Remark,
-                    Posts = this.Posts.Select(p => new SysPost() { PostId = p.Id }).ToList(),
-                    Roles = this.Roles.Select(r => new SysRole() { RoleId = r.Id }).ToList(),
-                    Depts = this.Depts.Select(d => new SysDept() { Id = d.Id }).ToList(),
+                    //Posts = this.Posts.Select(p => new SysPost() { PostId = p.Id }).ToList(),
+                    //Roles = this.Roles.Select(r => new SysRole() { RoleId = r.Id }).ToList(),
+                    //Depts = this.Depts.Select(d => new SysDept() { Id = d.Id }).ToList(),
                 });
+
+                await _dialogHostService.AlertAsync("添加成功！", () =>
+                {
+                     _dialogHostService.CloseDialogAsync();
+                }, "UserDialog");
             });
         }
     }
