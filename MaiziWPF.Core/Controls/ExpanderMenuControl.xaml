@@ -13,11 +13,10 @@
     <UserControl.Resources>
         <Style x:Key="MenuButtonStyle" TargetType="RadioButton">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="#707db2" />
-            <Setter Property="Margin" Value="0,0,0,5" />
-            <Setter Property="Height" Value="45" />
+            <Setter Property="Foreground" Value="#ffffff" />
+            <Setter Property="Margin" Value="0,2" />
+            <Setter Property="Height" Value="40" />
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-            <Setter Property="Tag" Value="#6673b7" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
@@ -32,23 +31,15 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="#bccaf1" />
-                    <Setter Property="Tag" Value="#7071f0" />
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                <GradientStop Offset="0" Color="#31407b" />
-                                <GradientStop Offset="3" Color="#495385" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Foreground" Value="#ffffff" />
+                    <Setter Property="Background" Value="#5eccb4" />
+                    
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="RadioButton">
                                 <Border
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="#afa1f5"
-                                    BorderThickness="4,0,0,0">
+                                    Background="{TemplateBinding Background}"     BorderBrush="#5eccb4"
+                            BorderThickness="4,0,0,0">
                                     <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                                 </Border>
                             </ControlTemplate>
@@ -56,12 +47,14 @@
                     </Setter>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="#ffffff" />
+                    <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="RadioButton">
                                 <Border
                                     Background="{TemplateBinding Background}"
-                                    BorderBrush="#afa1f5"
+                                    BorderBrush="#07bf96"
                                     BorderThickness="4,0,0,0">
                                     <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                                 </Border>
@@ -83,7 +76,7 @@
         <Style x:Key="MenuButtonIconStyle" TargetType="materialDesign:PackIcon">
             <Setter Property="Width" Value="20" />
             <Setter Property="Height" Value="20" />
-            <Setter Property="Foreground" Value="{Binding Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RadioButton}}}" />
+            <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RadioButton}}}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Level}" Value="1">
                     <Setter Property="Margin" Value="20,0,6,0" />
@@ -97,14 +90,15 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="MenuButtonTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="Light" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RadioButton}}}" />
         </Style>
         <Style x:Key="MenuExpanderStyle" TargetType="Expander">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="#707db2" />
-            <Setter Property="Tag" Value="#6673b7" />
+            <Setter Property="Foreground" Value="#ffffff" />
+           
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Expander">
@@ -113,21 +107,13 @@
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="Padding" Value="24,0,0,0" />
-                                        <Setter Property="BorderThickness" Value="4,0,0,0" />
-                                        <Setter Property="Height" Value="45" />
-                                        <Setter Property="Margin" Value="0,0,0,5" />
+                                        <Setter Property="Padding" Value="20,0,0,0" />
+                                        <Setter Property="Height" Value="40" />
+                                        <Setter Property="Margin" Value="0,2" />
+                     
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="BorderBrush" Value="#afa1f5" />
-                                                <Setter Property="Background">
-                                                    <Setter.Value>
-                                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                            <GradientStop Offset="0" Color="#31407b" />
-                                                            <GradientStop Offset="3" Color="#495385" />
-                                                        </LinearGradientBrush>
-                                                    </Setter.Value>
-                                                </Setter>
+                                                <Setter Property="Background" Value="#5eccb4" />
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
@@ -135,13 +121,13 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="40" />
                                     </Grid.ColumnDefinitions>
                                     <ContentPresenter ContentSource="Header" />
                                     <ToggleButton
                                         Grid.Column="1"
                                         VerticalAlignment="Center"
-                                        Foreground="#707db2"
+                                        Foreground="#ffffff"
                                         IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                         Style="{StaticResource MaterialDesignExpanderToggleButton}" />
                                 </Grid>
@@ -161,23 +147,24 @@
             </Setter>
         </Style>
         <Style x:Key="MenuExpanderButtonTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="Light" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}" />
         </Style>
         <Style x:Key="MenuExpanderButtonIconStyle" TargetType="materialDesign:PackIcon">
             <Setter Property="Width" Value="20" />
             <Setter Property="Height" Value="20" />
-            <Setter Property="Foreground" Value="{Binding Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}" />
+            <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Level}" Value="1">
-                    <Setter Property="Margin" Value="0,0,6,0" />
+                    <Setter Property="Margin" Value="5,0,6,0" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Level}" Value="2">
-                    <Setter Property="Margin" Value="35,0,6,0" />
+                    <Setter Property="Margin" Value="40,0,6,0" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Level}" Value="3">
-                    <Setter Property="Margin" Value="55,0,6,0" />
+                    <Setter Property="Margin" Value="60,0,6,0" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>

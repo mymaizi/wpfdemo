@@ -73,7 +73,7 @@
                 <!--  分割线  -->
                 <Separator Height="0.8" Background="#757575" />
                 <!--  导航区域  -->
-                <ItemsControl x:Name="dd" ItemsSource="{Binding MenuItems}">
+                <ItemsControl ItemsSource="{Binding MenuItems}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <maiziWPF:ExpanderMenuControl />
@@ -127,7 +127,7 @@
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="#6c757d" />
+                                                        <Setter Property="Background" Value="#07bf96" />
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -151,7 +151,7 @@
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="#6c757d" />
+                                                        <Setter Property="Background" Value="#07bf96" />
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
