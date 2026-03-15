@@ -1,4 +1,5 @@
 ﻿using MaiziWPF.Core.Services;
+using MaiziWPF.Core;
 using MaiziWPF.Views;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.Hosting;
@@ -62,14 +63,59 @@ namespace MaiziWPF.Services
 
         public async Task AlertAsync(string message, Action onAlertClosed = null, string identifier = "RootDialog")
         {
-            var content = new TextBlock
+            await AlertAsync(message, AlertType.Info, onAlertClosed, identifier);
+        }
+
+        public async Task AlertAsync(string message, AlertType alertType, Action onAlertClosed = null, string identifier = "RootDialog")
+        {
+            var stackPanel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Margin = new Thickness(20)
+            };
+
+            PackIconKind iconKind;
+            Brush iconColor;
+
+            switch (alertType)
+            {
+                case AlertType.Error:
+                    iconKind = PackIconKind.Error;
+                    iconColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D32F2F")); // 深红色
+                    break;
+                case AlertType.Warning:
+                    iconKind = PackIconKind.Warning;
+                    iconColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA000")); // 琥珀色
+                    break;
+                case AlertType.Info:
+                default:
+                    iconKind = PackIconKind.Information;
+                    iconColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00796B")); // 与主题匹配的Teal色
+                    break;
+            }
+
+            var icon = new PackIcon
+            {
+                Kind = iconKind,
+                Width = 24,
+                Height = 24,
+                Foreground = iconColor,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 10, 0)
+            };
+
+            var textBlock = new TextBlock
             {
                 Text = message,
-                Margin = new Thickness(20),
                 TextWrapping = TextWrapping.WrapWithOverflow,
-                FontSize = 16
+                FontSize = 16,
+                VerticalAlignment = VerticalAlignment.Center
             };
-            _ = ShowDialogAsync(content, isShadow: false, onDialogClosed: onAlertClosed, identifier:identifier);
+
+            stackPanel.Children.Add(icon);
+            stackPanel.Children.Add(textBlock);
+
+            _ = ShowDialogAsync(stackPanel, isShadow: false, onDialogClosed: onAlertClosed, identifier: identifier);
         }
     }
 }
