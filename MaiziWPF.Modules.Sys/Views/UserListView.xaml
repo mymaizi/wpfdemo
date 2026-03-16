@@ -36,7 +36,7 @@
                                 Text="{Binding QueryPageInfo.DeptName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
                     </materialDesign:Card>
-                    <materialDesign:TreeListView ItemsSource="{Binding DeptItems}">
+                    <materialDesign:TreeListView FontSize="14" ItemsSource="{Binding DeptItems}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <prism:InvokeCommandAction Command="{Binding DeptSelectionCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=materialDesign:TreeListView}}" />

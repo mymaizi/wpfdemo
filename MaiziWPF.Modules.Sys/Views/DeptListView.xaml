@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="MaiziWPF.Modules.Sys.DeptListView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -62,31 +62,48 @@
                 </StackPanel>
             </WrapPanel>
             <!--  表格  -->
-            <materialDesign:TreeListView Grid.Row="1" ItemsSource="{Binding DeptItems}">
+            <materialDesign:TreeListView
+                Grid.Row="1"
+                FontSize="13"
+                ItemsSource="{Binding DeptItems}">
                 <materialDesign:TreeListView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type domain:SysDept}" ItemsSource="{Binding Childs}" />
                 </materialDesign:TreeListView.Resources>
                 <materialDesign:TreeListView.View>
                     <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="GridViewColumnHeader">
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="GridViewColumnHeader">
+                                            <Border Height="35">
+                                                <ContentPresenter Margin="20,0,0,0" VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
                         <GridView.Columns>
                             <GridViewColumn Width="200" Header="部门名称">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding DeptName}" />
+                                        <TextBlock Text="{Binding DeptName}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="排序">
+                            <GridViewColumn Width="100" Header="排序">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding OrderNum}" />
+                                        <TextBlock Margin="10,0,0,0" Text="{Binding OrderNum}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="状态">
+                            <GridViewColumn Width="100" Header="状态">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate DataType="{x:Type domain:SysDept}">
-                                        <Label x:Name="statusLabel" HorizontalAlignment="Center" />
+                                        <Label x:Name="statusLabel" Margin="4,0,0,0" />
                                         <DataTemplate.Triggers>
                                             <DataTrigger Binding="{Binding Status}" Value="1">
                                                 <Setter TargetName="statusLabel" Property="Content" Value="停用" />
@@ -100,10 +117,10 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="创建时间">
+                            <GridViewColumn Width="150" Header="创建时间">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CreateTime, Converter={StaticResource DateTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
+                                        <TextBlock Margin="8,0,0,0" Text="{Binding CreateTime, Converter={StaticResource DateTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
