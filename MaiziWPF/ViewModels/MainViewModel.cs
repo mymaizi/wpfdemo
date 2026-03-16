@@ -1,7 +1,9 @@
-﻿using MaiziWPF.Core;
+using MaiziWPF.Core;
+using MaiziWPF.Modules.Sys;
 using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using Prism.Commands;
+using Prism.Container.DryIoc;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Navigation.Regions;
@@ -9,11 +11,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MaiziWPF.ViewModels
 {
-    public class MainViewModel : BindableBase,INavigationAware
+    public class MainViewModel : BindableBase, INavigationAware
     {
         private readonly ISysMenuService _menuService;
         private readonly Window _mainWindow;
@@ -31,19 +35,12 @@ namespace MaiziWPF.ViewModels
             get { return _selectedItem; }
             set { SetProperty(ref _selectedItem, value); }
         }
-        public SysMenu _tabMenu;
-        public SysMenu TabMenu
-        {
-            get { return _tabMenu; }
-            set { SetProperty(ref _tabMenu, value); }
-        }
-
         public String MaxsizeIcon
         {
             get { return _maxsizeIcon; }
             set { SetProperty(ref _maxsizeIcon, value); }
         }
-     
+
         public MainViewModel(IRegionManager regionManager, IContainerProvider containerProvider, ISysMenuService menuService)
         {
             _menuService = menuService;
@@ -62,10 +59,10 @@ namespace MaiziWPF.ViewModels
                 _mainWindow?.WindowState = _mainWindow?.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
                 MaxsizeIcon = _mainWindow?.WindowState == WindowState.Maximized ? "WindowMaximize" : "Maximize";
             });
-            CloseTabCommand = new DelegateCommand<SysMenu>(menu =>
+            CloseTabCommand = new DelegateCommand<string>(viewName =>
             {
                 var tabRegion = _regionManager.Regions[RegionNames.TabRegion];
-                var currentView = tabRegion.GetView(menu.Component);
+                var currentView = tabRegion.Views.FirstOrDefault(v => v.GetType().Name == viewName);
                 if (currentView != null)
                 {
                     tabRegion.Remove(currentView);
@@ -82,20 +79,34 @@ namespace MaiziWPF.ViewModels
                 var tabRegion = _regionManager.Regions[RegionNames.TabRegion];
                 if (!tabRegion.Views.Any(v => v.GetType().Name == m.Component))
                 {
-                    TabMenu = m;
-                    tabRegion.Add(m.Component);
+                    tabRegion.Add(GetView(m));
                 }
-                SelectedItem = tabRegion.GetView(m.Component);
+                else {                    
+                    var view = tabRegion.Views.FirstOrDefault(v => v.GetType().Name == m.Component);
+                    if (view != null)
+                    {
+                        SelectedItem = view;
+                    }
+                }
             });
         }
 
+        private  FrameworkElement GetView(SysMenu m)
+        {
+            string fullName = $"{m.Namespace}.{m.Component}, {m.Namespace}";
+            Type viewType = Type.GetType(fullName);
+            var view = ContainerLocator.Container.Resolve(viewType) as FrameworkElement;
+            (view.DataContext as ITabItemInfo)?.Header = m.MenuName;
+            (view.DataContext as ITabItemInfo)?.Component = m.Component;
+            return view;
+        }
+     
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var firstMenu = MenuItems.First();
-            if (firstMenu != null)
+            var m = MenuItems.First();
+            if (m != null)
             {
-                TabMenu = firstMenu;
-                _regionManager.Regions[RegionNames.TabRegion].Add(firstMenu.Component);
+                _regionManager.Regions[RegionNames.TabRegion].Add(GetView(m));
             }
         }
 

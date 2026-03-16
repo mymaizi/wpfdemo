@@ -25,6 +25,9 @@ namespace MaiziWPF.Modules.Sys
         private readonly ISysUserService _userService;
         public ICommand DeptSelectionCommand { get; }
         public ICommand DeptQueryCommand { get; }
+
+       
+
         private readonly IContainerProvider _containerProvider;
         private readonly IDialogHostService _dialogHostService;
 

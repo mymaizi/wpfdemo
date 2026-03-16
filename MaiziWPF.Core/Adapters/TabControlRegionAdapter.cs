@@ -1,6 +1,7 @@
-﻿using Prism.Navigation.Regions;
+using Prism.Navigation.Regions;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MaiziWPF.Core
@@ -13,16 +14,16 @@ namespace MaiziWPF.Core
 
         protected override void Adapt(IRegion region, TabControl regionTarget)
         {
-            region.ActiveViews.CollectionChanged += (s, e) =>
+            region.Views.CollectionChanged += (s, e) =>
             {
                 if (e.Action == NotifyCollectionChangedAction.Add)
                 {
-                    foreach (var view in e.NewItems)
+                    foreach (FrameworkElement view in e.NewItems)
                     {
                         if (regionTarget.Items.Count > 0)
                         {
                             regionTarget.Items.Insert(1, view);
-                            regionTarget.SelectedItem= view;
+                            regionTarget.SelectedItem = view;
                         }
                         else
                         {
@@ -30,7 +31,7 @@ namespace MaiziWPF.Core
                         }
                     }
                 }
-                if (e.Action == NotifyCollectionChangedAction.Remove)
+                else if (e.Action == NotifyCollectionChangedAction.Remove)
                 {
                     foreach (var view in e.OldItems)
                     {

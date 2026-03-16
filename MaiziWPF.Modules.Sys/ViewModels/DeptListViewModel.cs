@@ -1,6 +1,7 @@
 ﻿using MaiziWPF.Core;
 using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
+using MaiziWPF.Services.Domain.Shared;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -12,7 +13,7 @@ using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
 {
-    public class DeptListViewModel : BindableBase
+    public class DeptListViewModel : PageBindableBase<SysDept, QueryDeptInput>
     {
         public ObservableCollection<SysDept> DeptItems { get; set; } = new();
         private string _deptName;

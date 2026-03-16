@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
 {
-    public class MenuListViewModel : BindableBase
+    public class MenuListViewModel : PageBindableBase<SysMenu, QueryMenuInput>
     {
         public ObservableCollection<SysMenu> MenuItems { get; set; } = new();
         private string _menuName;

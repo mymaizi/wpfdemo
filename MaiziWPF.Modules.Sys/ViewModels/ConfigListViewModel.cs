@@ -25,5 +25,6 @@ namespace MaiziWPF.Modules.Sys
             }, new QueryConfigInput() { PageNumber = 1, PageSize = 10 });
             SearchButtonCommand.Execute(this);
         }
+
     }
 }

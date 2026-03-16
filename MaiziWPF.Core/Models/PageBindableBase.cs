@@ -14,8 +14,10 @@ using System.Windows.Input;
 
 namespace MaiziWPF.Core
 {
-    public class PageBindableBase<T,T1> : BindableBase where T1 : class,new()
+    public class PageBindableBase<T,T1> : BindableBase, ITabItemInfo where T1 : class,new()
     {
+        public string Header { get; set; }
+        public string Component { get; set; }
         private T1 _queryPageInfo;
         public T1 QueryPageInfo { get => _queryPageInfo; set => SetProperty(ref _queryPageInfo, value); }
         private int _pageNumber;

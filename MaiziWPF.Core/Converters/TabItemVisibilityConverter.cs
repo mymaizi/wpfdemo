@@ -11,8 +11,7 @@ namespace MaiziWPF.Core
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value is SysMenu menu && menu.Component== (string)parameter) ?
-                Visibility.Collapsed : Visibility.Visible;
+            return ((string)value == (string)parameter) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

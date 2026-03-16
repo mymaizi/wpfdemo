@@ -43,6 +43,9 @@ namespace MaiziWPF.Services.Domain
         /** 视图路径 */
         [Column(Name = "component", DbType = "varchar(255)")]
         public String Component { get; set; }
+        /** 命名空间 */
+        [Column(Name = "namespace", DbType = "varchar(255)")]
+        public String Namespace { get; set; }
         /** 视图参数 */
         [Column(Name = "query", DbType = "varchar(255)")]
         public String Query { get; set; }

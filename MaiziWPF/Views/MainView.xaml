@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="MaiziWPF.Views.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -199,12 +199,15 @@
                                 Height="18"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
-                                <TextBlock FontSize="16" Text="{Binding DataContext.TabMenu.MenuName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}" />
+                                <TextBlock
+                                    FontSize="15"
+                                    Foreground="#ffffff"
+                                    Text="{Binding DataContext.DataContext.Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}" />
                                 <Button
-                                    Margin="8,0,0,0"
+                                    Margin="8,2,0,0"
                                     Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}"
-                                    CommandParameter="{Binding DataContext.TabMenu, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}"
-                                    Visibility="{Binding DataContext.TabMenu, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}, Converter={StaticResource TabItemVisibilityConverter}, ConverterParameter='DashboardView'}">
+                                    CommandParameter="{Binding DataContext.DataContext.Component, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}"
+                                    Visibility="{Binding DataContext.DataContext.Component, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}, Converter={StaticResource TabItemVisibilityConverter}, ConverterParameter='DashboardView'}">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <materialDesign:PackIcon
