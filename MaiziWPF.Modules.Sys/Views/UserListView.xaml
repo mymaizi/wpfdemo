@@ -12,6 +12,7 @@
         <maiziWPF:DateTimeConverter x:Key="DateTimeConverter" />
         <maiziWPF:BooleanConverter x:Key="BooleanConverter" />
         <maiziWPF:ListToStringConverter x:Key="ListToStringConverter" />
+        <maiziWPF:VisibilityConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
     <Border Background="WhiteSmoke" CornerRadius="0 0 10 0">
         <Grid>
@@ -92,7 +93,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             BorderThickness="0"
                             FontSize="16"
-                            Text="{Binding QueryPageInfo.Phonenumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding QueryPageInfo.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </materialDesign:Card>
                     <materialDesign:Card Width="200" Style="{StaticResource FormCardStyle}">
                         <ComboBox
@@ -182,7 +183,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn
-                            Binding="{Binding Phonenumber}"
+                            Binding="{Binding PhoneNumber}"
                             Header="手机号码"
                             IsReadOnly="True" />
                         <DataGridTemplateColumn Header="状态">
@@ -203,9 +204,11 @@
                         <DataGridTemplateColumn Header="操作">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding UserName, Converter={StaticResource VisibilityConverter}, ConverterParameter='admin'}">
                                         <Button
                                             Padding="5"
+                                            Command="{Binding DataContext.NewOrEditButtonCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
                                             Content="修改"
                                             Foreground="#1890ff"
                                             Style="{StaticResource MaterialDesignFlatLightButton}" />

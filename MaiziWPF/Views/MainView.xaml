@@ -16,7 +16,7 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <maiziWPF:TabItemVisibilityConverter x:Key="TabItemVisibilityConverter" />
+        <maiziWPF:VisibilityConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -207,7 +207,7 @@
                                     Margin="8,2,0,0"
                                     Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}"
                                     CommandParameter="{Binding DataContext.DataContext.Component, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}"
-                                    Visibility="{Binding DataContext.DataContext.Component, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}, Converter={StaticResource TabItemVisibilityConverter}, ConverterParameter='DashboardView'}">
+                                    Visibility="{Binding DataContext.DataContext.Component, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}, Converter={StaticResource VisibilityConverter}, ConverterParameter='DashboardView'}">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <materialDesign:PackIcon

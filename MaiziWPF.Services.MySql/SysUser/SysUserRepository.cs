@@ -81,5 +81,22 @@ namespace MaiziWPF.Services.MySql
             
             return result > 0;
         }
+
+        public bool UpdateUser(SysUser user)
+        {
+            // 更新用户信息
+            var result = _fsql.Update<SysUser>()
+                .Set(u => u.NickName, user.NickName)
+                .Set(u => u.PhoneNumber, user.PhoneNumber)
+                .Set(u => u.Email, user.Email)
+                .Set(u => u.Sex, user.Sex)
+                .Set(u => u.Status, user.Status)
+                .Set(u => u.Remark, user.Remark)
+                .Set(u => u.UpdateTime, DateTime.Now)
+                .Where(u => u.UserId == user.UserId)
+                .ExecuteAffrows();
+            
+            return result > 0;
+        }
     }
 }

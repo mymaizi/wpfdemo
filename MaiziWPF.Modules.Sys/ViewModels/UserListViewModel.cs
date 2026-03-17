@@ -7,6 +7,7 @@ using Prism.Ioc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
@@ -18,8 +19,6 @@ namespace MaiziWPF.Modules.Sys
         private readonly ISysUserService _userService;
         public ICommand DeptSelectionCommand { get; }
         public ICommand DeptQueryCommand { get; }
-       
-
 
         private readonly IContainerProvider _containerProvider;
         private readonly IDialogHostService _dialogHostService;
@@ -30,11 +29,30 @@ namespace MaiziWPF.Modules.Sys
             _userService = userService;
             _containerProvider = containerProvider;
             _dialogHostService = dialogHostService;
-            this.NewOrEditButtonCommand = new DelegateCommand(() =>
+            this.NewOrEditButtonCommand = new DelegateCommand<SysUser>(user =>
             {
                 var view = _containerProvider.Resolve<UserFormView>();
-                var model = _containerProvider.Resolve<UserFormViewModel>();
-                view.DataContext= model;
+                var model=  view.DataContext as UserFormViewModel;
+                if (user != null)
+                {
+                    model.UserId = user.UserId;
+                    model.NickName = user.NickName;
+                    model.PhoneNumber = user.PhoneNumber;
+                    model.Email = user.Email;
+                    model.Status = user.Status;
+                    model.Remark = user.Remark;
+                    model.Sex = user.Sex;
+                    model.IsEditMode = true;
+                }
+                else
+                {
+                    model.IsEditMode = false;
+                }
+                model.OnSaveSuccessCallback = () =>
+                {
+                    SearchButtonCommand?.Execute(null);
+                };
+                view.DataContext = model;
                 _dialogHostService.ShowDialogAsync(view, autoClose: false);
             });
             this.DeleteButtonCommand = new DelegateCommand<SysUser>(async user =>

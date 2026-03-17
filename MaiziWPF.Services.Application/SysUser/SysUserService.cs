@@ -107,5 +107,11 @@ namespace MaiziWPF.Services.Application
             // 逻辑删除用户，设置删除标志
             return _repository.DeleteUser(userId);
         }
+
+        public bool UpdateUser(SysUser user)
+        {
+            // 更新用户信息
+            return _repository.UpdateUser(user);
+        }
     }
 }

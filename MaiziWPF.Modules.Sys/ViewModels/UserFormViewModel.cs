@@ -1,4 +1,4 @@
-﻿using MaiziWPF.Core;
+using MaiziWPF.Core;
 using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using Prism.Commands;
@@ -9,6 +9,13 @@ namespace MaiziWPF.Modules.Sys
     public class UserFormViewModel : FormBindableBase
     {
         #region 表单字段
+        private long _userId;
+        public long UserId
+        {
+            get { return _userId; }
+            set { SetProperty(ref _userId, value); }
+        }
+
         private string _userName;
         public string UserName
         {
@@ -49,8 +56,8 @@ namespace MaiziWPF.Modules.Sys
             get { return _status; }
             set { SetProperty(ref _status, value); }
         }
-        public SysDictData _sex;
-        public SysDictData Sex
+        public string _sex;
+        public string Sex
         {
             get { return _sex; }
             set { SetProperty(ref _sex, value); }
@@ -79,58 +86,105 @@ namespace MaiziWPF.Modules.Sys
             get { return _remark; }
             set { SetProperty(ref _remark, value); }
         }
+        private bool _isEditMode;
+        public bool IsEditMode
+        {
+            get { return _isEditMode; }
+            set { SetProperty(ref _isEditMode, value); }
+        }
         #endregion
         
         #region 验证方法
         private bool ValidateForm()
         {
+           
             MaiziWPF.Core.NotEmptyValidationRule.ShowValidationErrors = true;
             MaiziWPF.Core.LengthValidationRule.ShowValidationErrors = true;
             MaiziWPF.Core.PasswordValidationRule.ShowValidationErrors = true;
-            
-            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(UserName)));
-            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(NickName)));
-            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(Password)));
 
-            return !string.IsNullOrWhiteSpace(NickName) && 
-                   !string.IsNullOrWhiteSpace(UserName) && 
-                   !string.IsNullOrWhiteSpace(Password);
+            if (!IsEditMode)
+            {
+                OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(UserName)));
+                OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(Password)));
+            }
+            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(NickName)));
+
+            if (!IsEditMode)
+            {
+                return !string.IsNullOrWhiteSpace(NickName) &&
+                  !string.IsNullOrWhiteSpace(UserName) &&
+                  !string.IsNullOrWhiteSpace(Password);
+            }
+            return !string.IsNullOrWhiteSpace(NickName);
         }
         #endregion
         
         private readonly ISysUserService _userService;
         private readonly IDialogHostService _dialogHostService;
+        
         public UserFormViewModel(ISysUserService userService,IDialogHostService dialogHostService) : base(dialogHostService)
         {
             _userService=userService;
             _dialogHostService=dialogHostService;
             this.AcceptCommand = new DelegateCommand(async () =>
             {
-                // 先进行表单验证
                 if (!ValidateForm())
                 {
                     return;
                 }
                 
-                _userService.InsertUser(new SysUser()
+                if (UserId!=0)
                 {
-                    UserName = this.UserName,
-                    NickName = this.NickName,
-                    PhoneNumber = this.PhoneNumber,
-                    Email = this.Email,
-                    Password = this.Password,
-                    Status = this.Status,
-                    Sex = this.Sex?.DictValue,
-                    Remark = this.Remark,
-                    //Posts = this.Posts.Select(p => new SysPost() { PostId = p.Id }).ToList(),
-                    //Roles = this.Roles.Select(r => new SysRole() { RoleId = r.Id }).ToList(),
-                    //Depts = this.Depts.Select(d => new SysDept() { Id = d.Id }).ToList(),
-                });
+                    var success = _userService.UpdateUser(new SysUser()
+                    {
+                        UserId = this.UserId,
+                        NickName = this.NickName,
+                        PhoneNumber = this.PhoneNumber,
+                        Email = this.Email,
+                        Status = this.Status,
+                        Sex = this.Sex,
+                        Remark = this.Remark,
+                        //Posts = this.Posts.Select(p => new SysPost() { PostId = p.Id }).ToList(),
+                        //Roles = this.Roles.Select(r => new SysRole() { RoleId = r.Id }).ToList(),
+                        //Depts = this.Depts.Select(d => new SysDept() { Id = d.Id }).ToList(),
+                    });
 
-                await _dialogHostService.AlertAsync("添加成功！", () =>
+                    if (success)
+                    {
+                        await _dialogHostService.AlertAsync("修改成功！", () =>
+                        {
+                            _dialogHostService.CloseDialogAsync();
+                            OnSaveSuccessCallback?.Invoke();
+                        }, "UserDialog");
+                    }
+                    else
+                    {
+                        await _dialogHostService.AlertAsync("修改失败！", AlertType.Error);
+                    }
+                }
+                else
                 {
-                     _dialogHostService.CloseDialogAsync();
-                }, "UserDialog");
+                    _userService.InsertUser(new SysUser()
+                    {
+                        UserName = this.UserName,
+                        NickName = this.NickName,
+                        PhoneNumber = this.PhoneNumber,
+                        Email = this.Email,
+                        Password = this.Password,
+                        Status = this.Status,
+                        Sex = this.Sex,
+                        Remark = this.Remark,
+                        //Posts = this.Posts.Select(p => new SysPost() { PostId = p.Id }).ToList(),
+                        //Roles = this.Roles.Select(r => new SysRole() { RoleId = r.Id }).ToList(),
+                        //Depts = this.Depts.Select(d => new SysDept() { Id = d.Id }).ToList(),
+                    });
+
+                    await _dialogHostService.AlertAsync("添加成功！", () =>
+                    {
+                         _dialogHostService.CloseDialogAsync();
+                         OnSaveSuccessCallback?.Invoke();
+                    }, "UserDialog");
+                }
             });
         }
     }
