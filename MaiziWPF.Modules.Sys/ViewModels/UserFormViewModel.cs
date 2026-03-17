@@ -1,15 +1,8 @@
 ﻿using MaiziWPF.Core;
-using MaiziWPF.Core.Services;
 using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using Prism.Commands;
-using Prism.Dialogs;
-using Prism.Mvvm;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
 {
@@ -22,24 +15,28 @@ namespace MaiziWPF.Modules.Sys
             get { return _userName; }
             set { SetProperty(ref _userName, value); }
         }
+
         private string _nickName;
         public string NickName
         {
             get { return _nickName; }
             set { SetProperty(ref _nickName, value); }
         }
+
         private string _phoneNumber;
         public string PhoneNumber
         {
             get { return _phoneNumber; }
             set { SetProperty(ref _phoneNumber, value); }
         }
+        
         private string _email;
         public string Email
         {
             get { return _email; }
             set { SetProperty(ref _email, value); }
         }
+        
         private string _password;
         public string Password
         {
@@ -83,6 +80,24 @@ namespace MaiziWPF.Modules.Sys
             set { SetProperty(ref _remark, value); }
         }
         #endregion
+        
+        #region 验证方法
+        private bool ValidateForm()
+        {
+            MaiziWPF.Core.NotEmptyValidationRule.ShowValidationErrors = true;
+            MaiziWPF.Core.LengthValidationRule.ShowValidationErrors = true;
+            MaiziWPF.Core.PasswordValidationRule.ShowValidationErrors = true;
+            
+            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(UserName)));
+            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(NickName)));
+            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(Password)));
+
+            return !string.IsNullOrWhiteSpace(NickName) && 
+                   !string.IsNullOrWhiteSpace(UserName) && 
+                   !string.IsNullOrWhiteSpace(Password);
+        }
+        #endregion
+        
         private readonly ISysUserService _userService;
         private readonly IDialogHostService _dialogHostService;
         public UserFormViewModel(ISysUserService userService,IDialogHostService dialogHostService) : base(dialogHostService)
@@ -91,6 +106,12 @@ namespace MaiziWPF.Modules.Sys
             _dialogHostService=dialogHostService;
             this.AcceptCommand = new DelegateCommand(async () =>
             {
+                // 先进行表单验证
+                if (!ValidateForm())
+                {
+                    return;
+                }
+                
                 _userService.InsertUser(new SysUser()
                 {
                     UserName = this.UserName,

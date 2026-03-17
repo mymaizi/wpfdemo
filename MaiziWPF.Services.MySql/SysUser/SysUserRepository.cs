@@ -1,4 +1,4 @@
-﻿using FreeSql;
+using FreeSql;
 using MaiziWPF.Services.Domain;
 using MaiziWPF.Services.Domain.Shared;
 
@@ -68,6 +68,18 @@ namespace MaiziWPF.Services.MySql
                        .Where(where)
                        .Page(input)
                        .ToList();
+        }
+
+        public bool DeleteUser(long userId)
+        {
+            // 逻辑删除，设置删除标志为 "2"
+            var result = _fsql.Update<SysUser>()
+                .Set(u => u.DelFlag, "2")
+                .Set(u => u.UpdateTime, DateTime.Now)
+                .Where(u => u.UserId == userId)
+                .ExecuteAffrows();
+            
+            return result > 0;
         }
     }
 }

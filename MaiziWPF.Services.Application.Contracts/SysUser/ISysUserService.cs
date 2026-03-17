@@ -1,4 +1,4 @@
-﻿using MaiziWPF.Services.Domain;
+using MaiziWPF.Services.Domain;
 using MaiziWPF.Services.Domain.Shared;
 using System;
 using System.Collections.Generic;
@@ -30,5 +30,13 @@ namespace MaiziWPF.Services.Application.Contracts
         * @return 结果
         */
         public long InsertUser(SysUser user);
+        
+        /**
+        * 删除用户信息
+        * 
+        * @param userId 用户ID
+        * @return 结果
+        */
+        public bool DeleteUser(long userId);
     }
 }

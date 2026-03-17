@@ -1,4 +1,4 @@
-﻿using FreeSql;
+using FreeSql;
 using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using MaiziWPF.Services.Domain.Shared;
@@ -100,6 +100,12 @@ namespace MaiziWPF.Services.Application
         public List<SysUser> SelectUserList(QueryUserInput input)
         {
             return _repository.SelectUserList(input);
+        }
+
+        public bool DeleteUser(long userId)
+        {
+            // 逻辑删除用户，设置删除标志
+            return _repository.DeleteUser(userId);
         }
     }
 }

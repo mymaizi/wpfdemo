@@ -33,7 +33,8 @@ namespace MaiziWPF.Core
         public ICommand SearchButtonCommand { get; set; }
         public ICommand PrevButtonCommand { get; set; }
         public ICommand NextButtonCommand { get; set; }
-        public ICommand AddOrEditButtonCommand { get; set; }
+        public ICommand NewOrEditButtonCommand { get; set; }
+        public ICommand DeleteButtonCommand { get; set; }
         public PageBindableBase()
         {
         }

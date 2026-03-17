@@ -1,4 +1,4 @@
-﻿using FreeSql;
+using FreeSql;
 using MaiziWPF.Services.Domain.Shared;
 using Volo.Abp.DependencyInjection;
 
@@ -42,12 +42,20 @@ namespace MaiziWPF.Services.Domain
         */
         public int BatchUserRole(List<SysUserRole> userRoleList);
         /**
-           * 批量新增用户部门信息
-           * 
-           * @param userDeptList 用户角色列表
-           * @return 结果
-           */
+        * 批量新增用户部门信息
+        * 
+        * @param userDeptList 用户角色列表
+        * @return 结果
+        */
         public int BatchUserDept(List<SysUserDept> userDeptList);
+        
+        /**
+        * 删除用户信息
+        * 
+        * @param userId 用户ID
+        * @return 结果
+        */
+        public bool DeleteUser(long userId);
 
     }
 }

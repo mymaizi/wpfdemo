@@ -139,7 +139,7 @@
                     <Button
                         Background="#1890ff"
                         BorderBrush="#1890ff"
-                        Command="{Binding AddOrEditButtonCommand}"
+                        Command="{Binding NewOrEditButtonCommand}"
                         Content="新增"
                         Foreground="#fff"
                         Style="{StaticResource MaterialDesignRaisedLightButton}" />
@@ -211,6 +211,8 @@
                                             Style="{StaticResource MaterialDesignFlatLightButton}" />
                                         <Button
                                             Padding="5"
+                                            Command="{Binding DataContext.DeleteButtonCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
                                             Content="删除"
                                             Foreground="#cf3539"
                                             Style="{StaticResource MaterialDesignFlatLightButton}" />

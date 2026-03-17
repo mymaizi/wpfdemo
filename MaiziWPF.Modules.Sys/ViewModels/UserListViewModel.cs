@@ -1,19 +1,12 @@
-﻿using MaiziWPF.Core;
-using MaiziWPF.Core.Services;
+using MaiziWPF.Core;
 using MaiziWPF.Services.Application.Contracts;
 using MaiziWPF.Services.Domain;
 using MaiziWPF.Services.Domain.Shared;
-using MaterialDesignThemes.Wpf;
 using Prism.Commands;
-using Prism.Dialogs;
 using Prism.Ioc;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MaiziWPF.Modules.Sys
@@ -25,8 +18,8 @@ namespace MaiziWPF.Modules.Sys
         private readonly ISysUserService _userService;
         public ICommand DeptSelectionCommand { get; }
         public ICommand DeptQueryCommand { get; }
-
        
+
 
         private readonly IContainerProvider _containerProvider;
         private readonly IDialogHostService _dialogHostService;
@@ -37,12 +30,37 @@ namespace MaiziWPF.Modules.Sys
             _userService = userService;
             _containerProvider = containerProvider;
             _dialogHostService = dialogHostService;
-            this.AddOrEditButtonCommand = new DelegateCommand(() =>
+            this.NewOrEditButtonCommand = new DelegateCommand(() =>
             {
                 var view = _containerProvider.Resolve<UserFormView>();
                 var model = _containerProvider.Resolve<UserFormViewModel>();
                 view.DataContext= model;
                 _dialogHostService.ShowDialogAsync(view, autoClose: false);
+            });
+            this.DeleteButtonCommand = new DelegateCommand<SysUser>(async user =>
+            {
+                if (user == null) return;
+                var result = await _dialogHostService.ConfirmAsync($"确定要删除用户 '{user.UserName}' 吗？", "确认删除");
+                if (result)
+                {
+                    try
+                    {
+                        var success = _userService.DeleteUser(user.UserId);
+                        if (success)
+                        {
+                            await _dialogHostService.AlertAsync("删除成功", AlertType.Info);
+                            SearchButtonCommand.Execute(this);
+                        }
+                        else
+                        {
+                            await _dialogHostService.AlertAsync("删除失败", AlertType.Error);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await _dialogHostService.AlertAsync($"删除失败：{ex.Message}", AlertType.Error);
+                    }
+                }
             });
             RegisterQueryFunc(input =>
             {

@@ -21,8 +21,8 @@ namespace MaiziWPF.Services.Domain
         [Column(Name = "update_time")]
         public DateTime UpdateTime { get; set; }
         /** 删除标志（0代表存在 2代表删除） */
-        [Column(Name = "del_flag", DbType = "char(1)")]
-        public String DelFlag { get; set; }
+        [Column(Name = "del_flag", DbType = "char(1) default '0'")]
+        public String DelFlag { get; set; } = "0";
   
     }
 }

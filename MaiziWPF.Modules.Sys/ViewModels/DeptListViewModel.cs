@@ -20,7 +20,6 @@ namespace MaiziWPF.Modules.Sys
         public string DeptName { get => _deptName; set => SetProperty(ref _deptName, value); }
         private string _status;
         public string Status { get => _status; set => SetProperty(ref _status, value); }
-        public ICommand SearchButtonCommand { get; }
         private readonly ISysDeptService _deptService;
 
         public DeptListViewModel(ISysDeptService deptService)

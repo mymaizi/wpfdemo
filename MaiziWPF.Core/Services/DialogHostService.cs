@@ -1,16 +1,11 @@
-﻿using MaiziWPF.Core.Services;
-using MaiziWPF.Core;
-using MaiziWPF.Views;
-using MaterialDesignThemes.Wpf;
-using Microsoft.Extensions.Hosting;
-using Prism.Dialogs;
+﻿using MaterialDesignThemes.Wpf;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace MaiziWPF.Services
+namespace MaiziWPF.Core
 {
     public class DialogHostService : IDialogHostService
     {
@@ -52,13 +47,77 @@ namespace MaiziWPF.Services
             await CloseDialogAsync(onDialogClosed,identifier);
         }
 
-        public async Task CloseDialogAsync(Action onDialogClosed = null,string identifier = "RootDialog")
+        public async Task<bool> ConfirmAsync(string message, string title = "确认", string confirmButtonText = "确定", string cancelButtonText = "取消", string identifier = "RootDialog")
         {
-            await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
+            var tcs = new TaskCompletionSource<bool>();
+            
+            var grid = new Grid
             {
-                DialogHost.Close(identifier);
-                if (onDialogClosed != null) onDialogClosed();
-            });
+                Width = 300,
+                Height = 150,
+                Margin = new Thickness(20)
+            };
+            
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            
+            // 消息文本
+            var messageTextBlock = new TextBlock
+            {
+                Text = message,
+                TextWrapping = TextWrapping.Wrap,
+                FontSize = 16,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextAlignment = TextAlignment.Center
+            };
+            Grid.SetRow(messageTextBlock, 0);
+            grid.Children.Add(messageTextBlock);
+            
+            // 按钮面板
+            var buttonPanel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+            Grid.SetRow(buttonPanel, 1);
+            grid.Children.Add(buttonPanel);
+            
+            // 确认按钮
+            var confirmButton = new Button
+            {
+                Content = confirmButtonText,
+                Width = 80,
+                Height = 36,
+                Margin = new Thickness(0, 0, 10, 0),
+                Style = (Style)System.Windows.Application.Current.TryFindResource("MaterialDesignFlatButton")
+            };
+            confirmButton.Click += async (s, e) =>
+            {
+                tcs.SetResult(true);
+                await CloseDialogAsync(null, identifier);
+            };
+            buttonPanel.Children.Add(confirmButton);
+            
+            // 取消按钮
+            var cancelButton = new Button
+            {
+                Content = cancelButtonText,
+                Width = 80,
+                Height = 36,
+                Style = (Style)System.Windows.Application.Current.TryFindResource("MaterialDesignFlatButton")
+            };
+            cancelButton.Click += async (s, e) =>
+            {
+                tcs.SetResult(false);
+                await CloseDialogAsync(null, identifier);
+            };
+            buttonPanel.Children.Add(cancelButton);
+            
+            await ShowDialogAsync(grid, false, 0, null, true, identifier);
+            
+            return await tcs.Task;
         }
 
         public async Task AlertAsync(string message, Action onAlertClosed = null, string identifier = "RootDialog")
@@ -116,6 +175,15 @@ namespace MaiziWPF.Services
             stackPanel.Children.Add(textBlock);
 
             _ = ShowDialogAsync(stackPanel, isShadow: false, onDialogClosed: onAlertClosed, identifier: identifier);
+        }
+
+        public async Task CloseDialogAsync(Action onDialogClosed = null, string identifier = "RootDialog")
+        {
+            await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                DialogHost.Close(identifier);
+                if (onDialogClosed != null) onDialogClosed();
+            });
         }
     }
 }

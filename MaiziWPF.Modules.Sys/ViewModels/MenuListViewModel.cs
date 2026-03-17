@@ -20,7 +20,6 @@ namespace MaiziWPF.Modules.Sys
         public string MenuName { get => _menuName; set => SetProperty(ref _menuName, value); }
         private string _status;
         public string Status { get => _status; set => SetProperty(ref _status, value); }
-        public ICommand SearchButtonCommand { get; }
         private readonly ISysMenuService _menuService;
 
         public MenuListViewModel(ISysMenuService menuService)
