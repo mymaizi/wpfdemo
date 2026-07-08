@@ -236,15 +236,16 @@
                 <ComboBox
                     Grid.Row="3"
                     Grid.Column="1"
-                    core:DataDictAssist.Type="sys_dept"
+                    core:DbAssist.Bind="dept"
+                    core:DbAssist.BindField="{Binding Depts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     materialDesign:HintAssist.Hint="请选择部门"
-                    SelectedItem="{Binding Dept}"
+                    materialDesign:TextFieldAssist.HasClearButton="False"
+                    IsEditable="True"
+                    IsReadOnly="True"
                     Style="{StaticResource FormComboBox}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type domain:SysDictData}">
-                            <TextBlock Text="{Binding DictLabel}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
+                    <ComboBox.Template>
+                        <ControlTemplate TargetType="{x:Type ComboBox}" />
+                    </ComboBox.Template>
                 </ComboBox>
 
                 <TextBlock
@@ -272,13 +273,16 @@
                 <ComboBox
                     Grid.Row="4"
                     Grid.Column="1"
-                    core:DataDictAssist.Type="sys_post"
+                    core:DbAssist.Bind="post"
+                    core:DbAssist.BindField="{Binding Posts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     materialDesign:HintAssist.Hint="请选择岗位"
-                    SelectedItem="{Binding Post}"
+                    materialDesign:TextFieldAssist.HasClearButton="False"
+                    IsEditable="True"
+                    IsReadOnly="True"
                     Style="{StaticResource FormComboBox}">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type domain:SysDictData}">
-                            <TextBlock Text="{Binding DictLabel}" />
+                        <DataTemplate DataType="{x:Type core:Checked}">
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -291,13 +295,16 @@
                 <ComboBox
                     Grid.Row="4"
                     Grid.Column="3"
-                    core:DataDictAssist.Type="sys_role"
+                    core:DbAssist.Bind="role"
+                    core:DbAssist.BindField="{Binding Roles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     materialDesign:HintAssist.Hint="请选择角色"
-                    SelectedItem="{Binding Role}"
+                    materialDesign:TextFieldAssist.HasClearButton="False"
+                    IsEditable="True"
+                    IsReadOnly="True"
                     Style="{StaticResource FormComboBox}">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type domain:SysDictData}">
-                            <TextBlock Text="{Binding DictLabel}" />
+                        <DataTemplate DataType="{x:Type core:Checked}">
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -455,15 +462,42 @@
                 <ComboBox
                     Grid.Row="2"
                     Grid.Column="1"
-                    core:DataDictAssist.Type="sys_dept"
+                    core:DbAssist.Bind="dept"
+                    core:DbAssist.BindField="{Binding Depts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     materialDesign:HintAssist.Hint="请选择部门"
-                    SelectedItem="{Binding Dept}"
+                    materialDesign:TextFieldAssist.HasClearButton="False"
+                    IsEditable="True"
+                    IsReadOnly="True"
                     Style="{StaticResource FormComboBox}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type domain:SysDictData}">
-                            <TextBlock Text="{Binding DictLabel}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
+                    <ComboBox.Template>
+                        <ControlTemplate TargetType="{x:Type ComboBox}">
+                            <materialDesign:TreeListView ItemsSource="{TemplateBinding ItemsSource}">
+                                <materialDesign:TreeListView.Resources>
+                                    <HierarchicalDataTemplate DataType="{x:Type core:Checked}" ItemsSource="{Binding Childs}">
+                                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </HierarchicalDataTemplate>
+                                </materialDesign:TreeListView.Resources>
+                                <materialDesign:TreeListView.View>
+                                    <GridView>
+                                        <GridView.ColumnHeaderContainerStyle>
+                                            <Style TargetType="GridViewColumnHeader">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </Style>
+                                        </GridView.ColumnHeaderContainerStyle>
+                                        <GridView.Columns>
+                                            <GridViewColumn Width="210">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <ContentPresenter Content="{Binding}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView.Columns>
+                                    </GridView>
+                                </materialDesign:TreeListView.View>
+                            </materialDesign:TreeListView>
+                        </ControlTemplate>
+                    </ComboBox.Template>
                 </ComboBox>
 
                 <TextBlock
@@ -491,13 +525,16 @@
                 <ComboBox
                     Grid.Row="3"
                     Grid.Column="1"
-                    core:DataDictAssist.Type="sys_post"
+                    core:DbAssist.Bind="post"
+                    core:DbAssist.BindField="{Binding Posts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     materialDesign:HintAssist.Hint="请选择岗位"
-                    SelectedItem="{Binding Post}"
+                    materialDesign:TextFieldAssist.HasClearButton="False"
+                    IsEditable="True"
+                    IsReadOnly="True"
                     Style="{StaticResource FormComboBox}">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type domain:SysDictData}">
-                            <TextBlock Text="{Binding DictLabel}" />
+                        <DataTemplate DataType="{x:Type core:Checked}">
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -510,13 +547,16 @@
                 <ComboBox
                     Grid.Row="3"
                     Grid.Column="3"
-                    core:DataDictAssist.Type="sys_role"
+                    core:DbAssist.Bind="role"
+                    core:DbAssist.BindField="{Binding Roles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     materialDesign:HintAssist.Hint="请选择角色"
-                    SelectedItem="{Binding Role}"
+                    materialDesign:TextFieldAssist.HasClearButton="False"
+                    IsEditable="True"
+                    IsReadOnly="True"
                     Style="{StaticResource FormComboBox}">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type domain:SysDictData}">
-                            <TextBlock Text="{Binding DictLabel}" />
+                        <DataTemplate DataType="{x:Type core:Checked}">
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
